@@ -1,0 +1,6 @@
+term xterm-color
+defscrollback 8192
+
+caption always
+caption string "%{= gk}%S  %{m}%3n %t%{-} %= %{r}%H %{-} %D %Y-%m-%d %c:%s"
+
