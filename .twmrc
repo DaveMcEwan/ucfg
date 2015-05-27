@@ -1,0 +1,124 @@
+#**********************************************************************
+#
+#  .twmrc
+#
+#**********************************************************************
+
+# ~/.vnc/xstartup should look something like this:
+#
+#!/bin/sh
+# [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+# xsetroot -solid '#010104'
+# vncconfig -nowin &
+# twm &
+
+TitleFont       "-*-new century schoolbook-bold-r-normal--*-120-*-*-*-*-iso8859-1"
+MenuFont        "-*-new century schoolbook-bold-r-normal--*-140-*-*-*-*-iso8859-1"
+IconFont        "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
+ResizeFont      "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
+IconmanagerFont "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
+
+#IconRegion      "600x200-0-0" SOUTH EAST 75 25
+NoIconManagers
+
+# Focus with mouses.
+SloppyFocus
+AutoRaise
+AutoRaiseDelay 100
+
+Cursors
+{
+    Button  "left_ptr"
+    IconMgr "left_ptr"
+    Menu    "left_ptr"
+    Title   "left_ptr"
+    Frame   "crosshair"
+    Icon    "crosshair"
+    Resize  "crosshair"
+    Select  "crosshair"
+    Wait    "clock"
+    Destroy "pirate"
+}
+
+Color
+{
+  BorderColor "DodgerBlue"
+  TitleBackground "black"
+  TitleForeground "green"
+  MenuBackground "palegoldenrod"
+  MenuForeground "black"
+  MenuTitleBackground "DodgerBlue"
+  MenuTitleForeground "white"
+  IconBackground "#fffff0"
+  IconForeground "black"
+  IconBorderColor "black"
+  IconManagerBackground "pale turquoise"
+  IconManagerForeground "navy"
+}
+
+# Key bindings
+DefaultFunction f.nop
+Function "move-or-raise" { f.move f.deltastop f.raise }
+Button1 =       : title : f.function "move-or-raise"
+Button2 =       : title : f.zoom
+Button3 =       : title : f.menu "Title Menu"
+Button3 = c m   : title : f.destroy
+Button1 =       : root  : f.menu "TwmWindows"
+Button2 =       : root  : f.nop
+Button3 =       : root  : f.menu "System"
+
+Icons
+{
+    "Xmh"   "/usr/include/X11/bitmaps/letters"
+    "XTerm" "/usr/include/X11/bitmaps/terminal"
+}
+
+UnknownIcon "/usr/include/X11/bitmaps/xlogo32"
+
+# Alt+Tab cycles through windows.
+Function "winup" { f.circleup }
+"Tab" = m : root|window|frame|title : f.function "winup"
+
+# Don't allow windows to go off the edge of the screen.
+DontMoveOff
+
+menu "System"
+{
+    "GVim"              !"~/bin/vim -g &"
+    "Xterm"             !"xterm -sb -rightbar -bd white -bw 2 &"
+    "Konsole"           !"konsole &"
+    "Firefox"           !"firefox &"
+    "Eyes"              !"xeyes &"
+    "Windows"           f.title
+    "Lower"             f.lower
+    "Raise"             f.raise
+    "Resize"            f.resize
+    "Move"              f.move
+    "Deiconify"         f.deiconify
+    "Iconify"           f.iconify
+    "Identify"          f.identify
+    "Focus"             f.focus
+    "Kill"              f.destroy
+    "TWM"               f.title
+    "Refresh"           f.refresh
+    "Unfocus"           f.unfocus
+    "Show Icon Box"     f.showiconmgr
+    "Hide Icon Box"     f.hideiconmgr
+}
+
+menu "Title Menu"
+{
+    ""                  f.nop
+    "Move"              f.move
+    "Top zoom"          f.topzoom
+    "Bottom zoom"       f.bottomzoom
+    "Left zoom"         f.leftzoom
+    "Right zoom"        f.rightzoom
+    "Full zoom"         f.fullzoom
+    "Iconify"           f.iconify
+    "Identify"          f.identify
+    "Delete"            f.delete
+    ""                  f.nop
+    "Kill"              f.destroy
+}
+
