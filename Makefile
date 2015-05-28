@@ -39,6 +39,12 @@ IGNORE += README.md
 PATHS := $(shell ls -A $(addprefix --ignore ,$(IGNORE)))
 UNPUT_PATHS := $(shell ls -A $(BACKUP_DIR))
 
+list: $(PATHS)
+	@echo === Paths:
+	@$(foreach p,$^,ls -ld $p;)
+	@echo === Ignore
+	@$(foreach i,$(IGNORE),echo $i;)
+
 put: $(PATHS)
 	@echo Backing up to $(BACKUP_DIR)
 	rm -rf $(BACKUP_DIR)
@@ -57,10 +63,4 @@ get: $(PATHS)
 	@echo Getting paths:
 	@echo $^
 	$(foreach p,$^,cp -r $(shell readlink -e $(HOME)/$p) $(SELF)/$p;)
-
-list: $(PATHS)
-	@echo === Paths:
-	@$(foreach p,$^,ls -ld $p;)
-	@echo === Ignore
-	@$(foreach i,$(IGNORE),echo $i;)
 
