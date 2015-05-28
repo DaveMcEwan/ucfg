@@ -31,12 +31,12 @@ SELF := $(PWD)
 SELF_NAME := $(shell basename $(SELF))
 BACKUP_DIR := $(HOME)/.$(SELF_NAME).bk
 
-IGNORE := --ignore Makefile
-IGNORE += --ignore .git
-IGNORE += --ignore LICENSE
-IGNORE += --ignore README.md
+IGNORE := Makefile
+IGNORE += .git
+IGNORE += LICENSE
+IGNORE += README.md
 
-PATHS := $(shell ls -A $(IGNORE))
+PATHS := $(shell ls -A $(addprefix --ignore ,$(IGNORE)))
 UNPUT_PATHS := $(shell ls -A $(BACKUP_DIR))
 
 put: $(PATHS)
@@ -57,3 +57,10 @@ get: $(PATHS)
 	@echo Getting paths:
 	@echo $^
 	$(foreach p,$^,cp -r $(shell readlink -e $(HOME)/$p) $(SELF)/$p;)
+
+list: $(PATHS)
+	@echo === Paths:
+	@$(foreach p,$^,ls -ld $p;)
+	@echo === Ignore
+	@$(foreach i,$(IGNORE),echo $i;)
+
