@@ -16,7 +16,7 @@
 # When running 'make put' all files/directories in $HOME with the same relative
 # paths as those in $UCFG are copied to $HOME/.ucfg.bk, then replaced with
 # softlinks to the equivilent in $UCFG.
-# Running 'make unput' restores the structure under $HOME/.ucfg.bk to $HOME.
+# Running 'make restore' restores the structure under $HOME/.ucfg.bk to $HOME.
 #
 # When running 'make get' all the files in $HOME/{$PATHS} are copied to
 # $UCFG/{$PATHS} - That is all.
@@ -31,36 +31,43 @@ SELF := $(PWD)
 SELF_NAME := $(shell basename $(SELF))
 BACKUP_DIR := $(HOME)/.$(SELF_NAME).bk
 
+PRINT_PREFIX := ===
+
 IGNORE := Makefile
 IGNORE += .git
+IGNORE += .gitignore
 IGNORE += LICENSE
 IGNORE += README.md
 
 PATHS := $(shell ls -A $(addprefix --ignore ,$(IGNORE)))
-UNPUT_PATHS := $(shell ls -A $(BACKUP_DIR))
+RESTORE_PATHS := $(shell ls -A $(BACKUP_DIR))
 
-list: $(PATHS)
-	@echo === Paths:
-	@$(foreach p,$^,ls -ld $p;)
-	@echo === Ignore
+.PHONY: list
+list:
+	@echo $(PRINT_PREFIX) Paths:
+	@$(foreach p,$(PATHS),ls -ld $p;)
+	@echo $(PRINT_PREFIX) Ignore:
 	@$(foreach i,$(IGNORE),echo $i;)
 
-put: $(PATHS)
-	@echo Backing up to $(BACKUP_DIR)
+.PHONY: backup
+backup:
+	@echo $(PRINT_PREFIX) Backup: $(BACKUP_DIR)
 	rm -rf $(BACKUP_DIR)
 	mkdir -p $(BACKUP_DIR)
-	-$(foreach p,$^,mv $(HOME)/$p $(BACKUP_DIR)/$p;)
-	@echo Putting paths:
-	@echo $^
-	cd $(HOME); $(foreach p,$^,ln -s $(SELF)/$p $p;)
+	-$(foreach p,$(PATHS),cp -r $(HOME)/$p $(BACKUP_DIR)/$p;)
 
-unput: $(UNPUT_PATHS)
-	@echo Restoring from $(BACKUP_DIR):
-	@echo $^
-	$(foreach p,$^,cp -r $(BACKUP_DIR)/$p $(HOME)/$p;)
+.PHONY: restore
+restore:
+	@echo $(PRINT_PREFIX) Restore: $(BACKUP_DIR)
+	@$(foreach p,$(RESTORE_PATHS),ls -ld $(BACKUP_DIR)/$p; cp -r $(BACKUP_DIR)/$p $(HOME)/$p;)
 
-get: $(PATHS)
-	@echo Getting paths:
-	@echo $^
-	$(foreach p,$^,cp -r $(shell readlink -e $(HOME)/$p) $(SELF)/$p;)
+.PHONY: put
+put: list backup
+	@echo $(PRINT_PREFIX) Linking: $(SELF)
+	cd $(HOME); $(foreach p,$(PATHS),ls -ld $p; rm -rf $p; ln -s $(SELF)/$p $p;)
+
+.PHONY: get
+get:
+	@echo $(PRINT_PREFIX) Copying: $(HOME)
+	$(foreach p,$(PATHS),ls -ld $(HOME)/$p; cp -r $(shell readlink -e $(HOME)/$p) $(SELF)/$p;)
 
