@@ -33,6 +33,7 @@ BACKUP_DIR := $(HOME)/.$(SELF_NAME).bk
 
 PRINT_PREFIX := ===
 
+# These files are special to ucfg so are okay to hardcode in.
 IGNORE := Makefile
 IGNORE += .git
 IGNORE += .gitignore
