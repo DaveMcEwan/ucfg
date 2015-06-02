@@ -180,10 +180,9 @@ set undolevels=1000
 
 set directory=~/.vim/swp/
 
-colorscheme dmcewan
+colorscheme torte
 if has("gui_running")
     set columns=85 lines=60
-    colorscheme dmcewan   "Make it easier to read
 endif
 
 if has("gui_running")
