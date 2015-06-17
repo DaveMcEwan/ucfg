@@ -47,8 +47,8 @@ RESTORE_PATHS := $(shell ls -A $(BACKUP_DIR))
 list:
 	@echo $(PRINT_PREFIX) Paths:
 	@$(foreach p,$(PATHS),ls -ld $p;)
-	@echo $(PRINT_PREFIX) Ignore:
-	@$(foreach i,$(IGNORE),echo $i;)
+#	@echo $(PRINT_PREFIX) Ignore:
+#	@$(foreach i,$(IGNORE),echo $i;)
 
 .PHONY: backup
 backup:
@@ -65,7 +65,7 @@ restore:
 .PHONY: put
 put: list backup
 	@echo $(PRINT_PREFIX) Linking: $(SELF)
-	cd $(HOME); $(foreach p,$(PATHS),ls -ld $p; rm -rf $p; ln -s $(SELF)/$p $p;)
+	cd $(HOME); $(foreach p,$(PATHS),rm -rf $p; ln -s $(SELF)/$p $p;)
 
 .PHONY: get
 get:

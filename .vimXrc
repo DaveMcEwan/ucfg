@@ -1,0 +1,7 @@
+
+source ~/.vimrc
+
+set nobackup
+set nowritebackup
+set noswapfile
+
