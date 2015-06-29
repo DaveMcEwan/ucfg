@@ -12,8 +12,8 @@
 # vncconfig -nowin &
 # twm &
 
-TitleFont       "-*-new century schoolbook-bold-r-normal--*-120-*-*-*-*-iso8859-1"
-MenuFont        "-*-new century schoolbook-bold-r-normal--*-140-*-*-*-*-iso8859-1"
+TitleFont       "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
+MenuFont        "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
 IconFont        "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
 ResizeFont      "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
 IconmanagerFont "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
