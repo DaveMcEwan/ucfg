@@ -21,6 +21,9 @@ IconmanagerFont "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
 #IconRegion      "600x200-0-0" SOUTH EAST 75 25
 NoIconManagers
 
+# Use previous geometry when deiconifing.
+DeiconifyToScreen
+
 # Focus with mouses.
 SloppyFocus
 AutoRaise
