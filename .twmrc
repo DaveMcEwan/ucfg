@@ -67,14 +67,6 @@ Button1 =       : root  : f.menu "TwmWindows"
 Button2 =       : root  : f.nop
 Button3 =       : root  : f.menu "System"
 
-Icons
-{
-    "Xmh"   "/usr/include/X11/bitmaps/letters"
-    "XTerm" "/usr/include/X11/bitmaps/terminal"
-}
-
-UnknownIcon "/usr/include/X11/bitmaps/xlogo32"
-
 # Alt+Tab cycles through windows.
 Function "winup" { f.circledown }
 "Tab" = m : root|window|frame|title : f.function "winup"
