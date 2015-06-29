@@ -76,7 +76,7 @@ Icons
 UnknownIcon "/usr/include/X11/bitmaps/xlogo32"
 
 # Alt+Tab cycles through windows.
-Function "winup" { f.circleup }
+Function "winup" { f.circledown }
 "Tab" = m : root|window|frame|title : f.function "winup"
 
 # Don't allow windows to go off the edge of the screen.
