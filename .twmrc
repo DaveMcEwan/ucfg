@@ -18,7 +18,10 @@ IconFont        "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
 ResizeFont      "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
 IconmanagerFont "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
 
-#IconRegion      "600x200-0-0" SOUTH EAST 75 25
+# Put icons in the right 1/3 and bottom 1/2 of the screen
+#define(IRegion, translit(eval(WIDTH/3)*eval(HEIGHT/2)+eval(WIDTH-WIDTH/3)-0, *, x))
+#IconRegion "IRegion" SOUTH EAST 75 25
+
 NoIconManagers
 
 # Use previous geometry when deiconifing.
