@@ -84,6 +84,7 @@ DontMoveOff
 
 menu "System"
 {
+    ""                  f.nop
     "GVim"              !"~/bin/vim -g &"
     "Xterm"             !"xterm -sb -rightbar -bd white -bw 2 &"
     "Konsole"           !"konsole &"
