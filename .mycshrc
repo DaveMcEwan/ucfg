@@ -1,0 +1,96 @@
+
+set _HOST = `hostname`
+#stty -ixon # Disable Ctrl+s sending xoff which freezes screen.
+#stty erase '^?'
+
+alias e "stty erase '^?'"
+alias rtfsum 'rtf_summarise -brief -nounf -modeldir '
+alias bbsub 'bsub -I -q brsa-dsl'
+alias bmake 'bsub -I -q brsa-dsl -sp200 -R opteron make'
+alias bbcsim 'bsub -I -q brsa-dsl -sp200 -R opteron bcsim'
+alias brtfq 'bsub -I -q brsa-dsl rtfq'
+alias windowx 'window xrhel-brsa'
+alias qlec 'bsub -K -o qlsf.log -q "brsa-dsl" -R "opteron || linux rusage[lec=1]" lec '
+alias bjenkins 'bjobs -u all -l | grep rtfq-jenkins_firepath'
+alias vncs 'vncserver -geometry 1920x1080'
+alias mydu 'du /projects/firepath_WRK1/work/dmcewan-* | xdu -n'
+
+set backslash_quote
+set path = ($HOME/bin $path)
+set prompt = "%T%c2$ "
+set history = 1000
+set savehist = 2000
+setenv PATH /tools/bin:$PATH
+
+# Workaround for proj.env which will undo all the changes to $PATH here.
+setenv PATH_ORIG $PATH
+
+limit coredumpsize 0
+
+setenv CVSREAD
+
+setenv FP_BM_TRACE_FNSC2            1
+setenv FP_BM_TRACE_OCTAVE_CONTROL   1
+#setenv FP_BM_TRACE_INS_TRELLIS      1
+#setenv FP_BM_TRACE_INS_BFLY         1
+
+setenv BCMDIR /projects/brcm/bcg/release/bronze
+
+# My standard aliases
+alias v '~/bin/vim'
+alias g 'grep -Hn --color --exclude-dir=.svn \!*'
+alias t 'tkdiff \!* &'
+alias d 'svn diff'
+alias p 'patch -p0 -i'
+alias h history '\!*'
+alias a 'tmux attach -dt'
+
+# Setup Xterm to look nicer.
+if ( ($?DISPLAY) ) then
+    xrdb ~/.Xdefaults
+endif
+
+# Easily setup the DISPLAY variable for VNC server running on xl-cam-06.
+alias dis 'setenv DISPLAY :2'
+
+setenv EDITOR vim
+setenv VISUAL $EDITOR
+
+# SVN aliases
+alias s 'svn status $TCROOT | egrep "^[-AMCGD]" | tcroot_rep.csh'
+alias svnst    'svn status $TCROOT'
+alias svnup    'svn update $TCROOT; s'
+alias svncom   'svnup; svn commit $TCROOT'
+# Start date for svnlog is the day I started at Broadcom.
+#alias svnlog   'svn log $TCROOT -r \{2014-09-15\}:HEAD | sed -n \'/ | dmcewan | /,/-----$/ p\''
+
+# Sandbox aliases
+alias fp 'cd /projects/firepath_WRK1/work/dmcewan-trunk; source bin/proj.env; svn status .; e'
+alias fpb 'cd /projects/firepath_WRK1/work/dmcewan-pbridge; source bin/proj.env; svn status .; e'
+alias fpo 'cd /projects/firepath_WRK1/work/dmcewan-obus; source bin/proj.env; svn status .; e'
+alias fpt 'cd /projects/firepath_WRK1/work/dmcewan-tdm; source bin/proj.env; svn status .; e'
+alias fpi 'cd /projects/firepath_WRK2/dmcewan-ivp; source bin/proj.env; svn status .; e'
+alias fps 'cd /projects/FIREPATHV8_BE1/work/dmcewan-synth; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpr0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpr1 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga1; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpr2p0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga2p0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpr1p0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga1p0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpy0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-yst0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpy1 'cd /projects/FIREPATHV8_BE1/work/dmcewan-yst1; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias yst 'cd /projects/BCM65400_WRK1/A0/work/dmcewan-trunk; source bin/proj.env; svn status .; e'
+
+# Octave aliases
+alias fp_new 'svn co http://svn.eu.broadcom.com/svn/octave/trunk .'
+alias fp_stat 'clear; pushd $TCROOT; svn diff . --diff-cmd=diff -x -U0; popd'
+alias ls_rtl 'find $TCROOT/design -regextype sed -regex ".*\.\(sv\|inc\)"'
+alias ls_synth 'find /projects/FIREPATHV8_BE1/work/dmcewan-*/frontend/synthesis_work/fpv8_top_m -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*"'
+alias synth_logs 'vim -p \!:1/qorstat.sorted \!:1/logs/synthesis/incrementalCompileDC_final_pass.log'
+alias mcs 'svn update $TCROOT; source $TCROOT/bin/proj.env; make core_sanity BATCH=1'
+
+# Run jasper on the queue from $TCROOT/sim/tests/jasper.
+alias q 'bsub -R rhel60 -Is -q brsa-dsl'
+alias j 'q make BATCH= \!:1.chk'
+
+setenv DEBUG "-debug -force .trace=ATCB  -force .bmtrace=1 -force .verbose=1"
+alias drtfq 'rtfq $DEBUG'
+
