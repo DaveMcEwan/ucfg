@@ -64,6 +64,17 @@ set textwidth=80    "Line width to wrap at with the gq command.
 " Enable tabs in makefiles
 autocmd FileType make setlocal noexpandtab
 
+" Removes trailing spaces and replaces tabs with spaces.
+" This is called on write.
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+    retab
+endfunction
+autocmd FileWritePre    * :call TrimWhiteSpace()
+autocmd FileAppendPre   * :call TrimWhiteSpace()
+autocmd FilterWritePre  * :call TrimWhiteSpace()
+autocmd BufWritePre     * :call TrimWhiteSpace()
+
 set showmatch       "Highlight matching bracket
 "Use the % key to jump to matching bracket 
 noremap % v%
