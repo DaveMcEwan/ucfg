@@ -33,7 +33,7 @@ let g:netrw_liststyle=3     " Use tree view.
 let g:netrw_banner=0        " Hide banner in file browser.
 let g:netrw_list_hide= '.svn/$'
 let g:netrw_hide=1          " Use hide list above.
-nnoremap <F1> :tabe 
+nnoremap <F1> :tabe %<cr>:E<cr>
 nnoremap <F2> :E<cr>
 
 " Go back to the last buffer.
