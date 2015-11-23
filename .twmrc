@@ -12,14 +12,20 @@
 # vncconfig -nowin &
 # twm &
 
-TitleFont       "-*-new century schoolbook-bold-r-normal--*-120-*-*-*-*-iso8859-1"
-MenuFont        "-*-new century schoolbook-bold-r-normal--*-140-*-*-*-*-iso8859-1"
+TitleFont       "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
+MenuFont        "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
 IconFont        "-*-helvetica-bold-r-normal--*-140-*-*-*-*-iso8859-1"
 ResizeFont      "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
 IconmanagerFont "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1"
 
-#IconRegion      "600x200-0-0" SOUTH EAST 75 25
+# Put icons in the right 1/3 and bottom 1/2 of the screen
+#define(IRegion, translit(eval(WIDTH/3)*eval(HEIGHT/2)+eval(WIDTH-WIDTH/3)-0, *, x))
+#IconRegion "IRegion" SOUTH EAST 75 25
+
 NoIconManagers
+
+# Use previous geometry when deiconifing.
+DeiconifyToScreen
 
 # Focus with mouses.
 SloppyFocus
@@ -67,16 +73,8 @@ Button1 =       : root  : f.menu "TwmWindows"
 Button2 =       : root  : f.nop
 Button3 =       : root  : f.menu "System"
 
-Icons
-{
-    "Xmh"   "/usr/include/X11/bitmaps/letters"
-    "XTerm" "/usr/include/X11/bitmaps/terminal"
-}
-
-UnknownIcon "/usr/include/X11/bitmaps/xlogo32"
-
 # Alt+Tab cycles through windows.
-Function "winup" { f.circleup }
+Function "winup" { f.circledown }
 "Tab" = m : root|window|frame|title : f.function "winup"
 
 # Don't allow windows to go off the edge of the screen.
@@ -84,6 +82,7 @@ DontMoveOff
 
 menu "System"
 {
+    ""                  f.nop
     "GVim"              !"~/bin/vim -g &"
     "Xterm"             !"xterm -sb -rightbar -bd white -bw 2 &"
     "Konsole"           !"konsole &"
