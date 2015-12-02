@@ -191,7 +191,7 @@ set undolevels=1000
 
 set directory=~/.vim/swp/
 
-colorscheme dmcewan
+colorscheme elflord
 if has("gui_running")
     set columns=85 lines=60
     colorscheme dmcewan   "Make it easier to read
@@ -202,7 +202,7 @@ if has("gui_running")
 
     " Show horizontal scrollbar.
     set guioptions+=b
-    
+
     "Max number of tabs gvim opens with the -p option.
     set tabpagemax=20
 endif
