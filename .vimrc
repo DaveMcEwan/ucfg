@@ -33,8 +33,8 @@ let g:netrw_liststyle=3     " Use tree view.
 let g:netrw_banner=0        " Hide banner in file browser.
 let g:netrw_list_hide= '.svn/$'
 let g:netrw_hide=1          " Use hide list above.
-nnoremap <F1> :tabe %<cr>:E<cr>
-nnoremap <F2> :E<cr>
+nnoremap <F1> :tabe %<cr>:Ex<cr>
+nnoremap <F2> :Ex<cr>
 
 " Go back to the last buffer.
 " Useful when you accidentally press <F1>
@@ -70,13 +70,13 @@ function! TrimWhiteSpace()
     %s/\s\+$//e
     retab
 endfunction
-autocmd FileWritePre    * :call TrimWhiteSpace()
-autocmd FileAppendPre   * :call TrimWhiteSpace()
-autocmd FilterWritePre  * :call TrimWhiteSpace()
-autocmd BufWritePre     * :call TrimWhiteSpace()
+"autocmd FileWritePre    * :call TrimWhiteSpace()
+"autocmd FileAppendPre   * :call TrimWhiteSpace()
+"autocmd FilterWritePre  * :call TrimWhiteSpace()
+"autocmd BufWritePre     * :call TrimWhiteSpace()
 
 set showmatch       "Highlight matching bracket
-"Use the % key to jump to matching bracket 
+"Use the % key to jump to matching bracket
 noremap % v%
 set incsearch       "Search as you type
 "Highlight search matches.
@@ -93,13 +93,17 @@ set showcmd         "Show the command being typed
 
 set noswapfile      "Don't make a swap file
 
-" Cursor line and column on by default. Toggle with '\cl' '\cc'. 
-set cursorline                              "Highlight the current line
+" Cursor line and column on by default. Toggle with '\cl' '\cc'.
 if has("gui_running")
     set cursorcolumn                        "Highlight the current column
 endif
 map <Leader>cl :set cursorline!
 map <Leader>cc :set cursorcolumn!
+
+"Highlight the current line when not in INSERT mode.
+set cursorline
+autocmd InsertEnter * set nocursorline
+autocmd InsertLeave * set cursorline
 
 " Disable wrapping by default
 set nowrap
@@ -194,7 +198,7 @@ set directory=~/.vim/swp/
 colorscheme dmcewan
 if has("gui_running")
     set columns=85 lines=60
-    colorscheme dmcewan   "Make it easier to read
+    colorscheme desert   "Make it easier to read
 endif
 
 if has("gui_running")
@@ -202,7 +206,7 @@ if has("gui_running")
 
     " Show horizontal scrollbar.
     set guioptions+=b
-    
+
     "Max number of tabs gvim opens with the -p option.
     set tabpagemax=20
 endif
