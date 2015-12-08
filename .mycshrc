@@ -15,8 +15,9 @@ alias bjenkins 'bjobs -u all -l | grep rtfq-jenkins_firepath'
 alias vncs 'vncserver -geometry 1920x1080'
 alias mydu 'du /projects/firepath_WRK1/work/dmcewan-* | xdu -n'
 
+set EXP_DIR = "/projects/firepath_WRK1/work/dmcewan-exp"
+set path = ($EXP_DIR/bin $HOME/bin $path)
 set backslash_quote
-set path = ($HOME/bin $path)
 set prompt = "%T%c2$ "
 set history = 1000
 set savehist = 2000
@@ -37,10 +38,10 @@ setenv FP_BM_TRACE_OCTAVE_CONTROL   1
 setenv BCMDIR /projects/brcm/bcg/release/bronze
 
 # My standard aliases
-alias v '~/bin/vim'
+alias v "$EXP_DIR/bin/vim"
 alias g 'grep -Hn --color --exclude-dir=.svn \!*'
 alias t 'tkdiff \!* &'
-alias d 'svn diff'
+alias d 'pushd $TCROOT; svn diff . > ~/diff/\!:1.`date +%Y_%m_%d_%H_%M_%S`.diff; popd'
 alias p 'patch -p0 -i'
 alias h history '\!*'
 alias a 'tmux attach -dt'
@@ -57,7 +58,8 @@ setenv EDITOR vim
 setenv VISUAL $EDITOR
 
 # SVN aliases
-alias s 'svn status $TCROOT | egrep "^[-AMCGD]" | tcroot_rep.csh'
+#alias s 'svn status $TCROOT | egrep "^[-AMCGD]" | tcroot_rep.csh'
+alias s 'svn st $TCROOT | grep -P "^\w{1}" | sed "s@$TCROOT@\\$TCROOT@"'
 alias svnst    'svn status $TCROOT'
 alias svnup    'svn update $TCROOT; s'
 alias svncom   'svnup; svn commit $TCROOT'
@@ -66,26 +68,42 @@ alias svncom   'svnup; svn commit $TCROOT'
 
 # Sandbox aliases
 alias fp 'cd /projects/firepath_WRK1/work/dmcewan-trunk; source bin/proj.env; svn status .; e'
-alias fpb 'cd /projects/firepath_WRK1/work/dmcewan-pbridge; source bin/proj.env; svn status .; e'
 alias fpo 'cd /projects/firepath_WRK1/work/dmcewan-obus; source bin/proj.env; svn status .; e'
-alias fpt 'cd /projects/firepath_WRK1/work/dmcewan-tdm; source bin/proj.env; svn status .; e'
-alias fpi 'cd /projects/firepath_WRK2/dmcewan-ivp; source bin/proj.env; svn status .; e'
+alias fpt 'cd /projects/firepath_WRK1/work/dmcewan-tracker; source bin/proj.env; svn status .; e'
 alias fps 'cd /projects/FIREPATHV8_BE1/work/dmcewan-synth; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
-alias fpr0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
-alias fpr1 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga1; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
+alias fpr4p0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga4p0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
 alias fpr2p0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga2p0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
 alias fpr1p0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-raaga1p0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
 alias fpy0 'cd /projects/FIREPATHV8_BE1/work/dmcewan-yst0; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
-alias fpy1 'cd /projects/FIREPATHV8_BE1/work/dmcewan-yst1; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
-alias yst 'cd /projects/BCM65400_WRK1/A0/work/dmcewan-trunk; source bin/proj.env; svn status .; e'
+alias yst 'cd /projects/FIREPATHV8_BE1/work/dmcewan-yst_rel; source bin/proj.env; svn status .; cd $TCROOT/frontend/synthesis_work/fpv8_top_m; e'
 
+###############################################################################
 # Octave aliases
+###############################################################################
+# {{{
+
+# Checkout a new repository in the current directory.
 alias fp_new 'svn co http://svn.eu.broadcom.com/svn/octave/trunk .'
+
+# Display a diff of the current workspace with zero context lines for succinctness.
 alias fp_stat 'clear; pushd $TCROOT; svn diff . --diff-cmd=diff -x -U0; popd'
-alias ls_rtl 'find $TCROOT/design -regextype sed -regex ".*\.\(sv\|inc\)"'
+
+# Display a list of all my SVN workspaces.
+alias ls_svn 'find /projects/firepath_WRK1/work/ /projects/firepath_WRK2/ /projects/FIREPATHV8_BE1/work/ -mindepth 1 -maxdepth 1 -type d -name "$USER-*"'
+
+# Display a list of all the RTL files (excluding libraries, macros, etc) in the current workspace.
+alias ls_rtl 'find $TCROOT/design -regextype sed -regex ".*\.\(sv\|v\|inc\|vh\)"'
+
+# Display a list of all my synthesis run directories.
 alias ls_synth 'find /projects/FIREPATHV8_BE1/work/dmcewan-*/frontend/synthesis_work/fpv8_top_m -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*"'
+
+# Open Vim with the files usually used for analysing synthesis logs.
 alias synth_logs 'vim -p \!:1/qorstat.sorted \!:1/logs/synthesis/incrementalCompileDC_final_pass.log'
+
+# Run core_sanity without lots of stupid windows.
 alias mcs 'svn update $TCROOT; source $TCROOT/bin/proj.env; make core_sanity BATCH=1'
+
+# }}}
 
 # Run jasper on the queue from $TCROOT/sim/tests/jasper.
 alias q 'bsub -R rhel60 -Is -q brsa-dsl'
