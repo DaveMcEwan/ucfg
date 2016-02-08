@@ -35,13 +35,13 @@ setenv FP_BM_TRACE_OCTAVE_CONTROL   1
 #setenv FP_BM_TRACE_INS_TRELLIS      1
 #setenv FP_BM_TRACE_INS_BFLY         1
 
-setenv BCMDIR /projects/brcm/bcg/release/bronze
+#setenv BCMDIR /projects/brcm/bcg/release/bronze
 
 # My standard aliases
 alias v "$EXP_DIR/bin/vim"
 alias g 'grep -Hn --color --exclude-dir=.svn \!*'
 alias t 'tkdiff \!* &'
-alias d 'pushd $TCROOT; svn diff . > ~/diff/\!:1.`date +%Y_%m_%d_%H_%M_%S`.diff; popd'
+alias d 'set DIFF="~/diff/\!:1.`date +%Y_%m_%d_%H_%M_%S`.diff"; pushd $TCROOT; svn info $TCROOT > $DIFF; svn diff . >> $DIFF; popd; unset DIFF'
 alias p 'patch -p0 -i'
 alias h history '\!*'
 alias a 'tmux attach -dt'
