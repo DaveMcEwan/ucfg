@@ -76,7 +76,7 @@ autocmd FilterWritePre  * :call TrimWhiteSpace()
 autocmd BufWritePre     * :call TrimWhiteSpace()
 
 set showmatch       "Highlight matching bracket
-"Use the % key to jump to matching bracket 
+"Use the % key to jump to matching bracket
 noremap % v%
 set incsearch       "Search as you type
 "Highlight search matches.
@@ -93,7 +93,7 @@ set showcmd         "Show the command being typed
 
 set noswapfile      "Don't make a swap file
 
-" Cursor line and column on by default. Toggle with '\cl' '\cc'. 
+" Cursor line and column on by default. Toggle with '\cl' '\cc'.
 set cursorline                              "Highlight the current line
 if has("gui_running")
     set cursorcolumn                        "Highlight the current column
@@ -201,7 +201,7 @@ if has("gui_running")
 
     " Show horizontal scrollbar.
     set guioptions+=b
-    
+
     "Max number of tabs gvim opens with the -p option.
     set tabpagemax=20
 endif
