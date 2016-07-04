@@ -191,7 +191,7 @@ set undolevels=1000
 
 set directory=~/.vim/swp/
 
-colorscheme torte
+colorscheme elflord
 if has("gui_running")
     set columns=85 lines=60
 endif
