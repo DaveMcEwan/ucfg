@@ -26,7 +26,7 @@
 
 # The backup directory name is based on the name of this directory to allow
 # forks of this project to work interoperably with minimal effort.
-# FIXME: Cannot use with 'make -C'
+# NOTE: Cannot use with 'make -C'
 SELF := $(PWD)
 SELF_NAME := $(shell basename $(SELF))
 BACKUP_DIR := $(HOME)/.$(SELF_NAME).bk
