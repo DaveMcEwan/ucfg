@@ -1,5 +1,6 @@
 set nocompatible "Don't emulate vi's bugs
 set ff=unix
+set ffs=unix,dos " Default to unix on Windows to prevent git warnings.
 set backspace=indent,start,eol
 
 " Reduce the delay going from INSERT to NORMAL mode.
