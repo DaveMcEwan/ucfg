@@ -91,6 +91,14 @@ $(USYS_SRC)/tmux/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=2.5
 	touch $@
 
+# NOTE: veripool git server only supports dumb protocols so need to clone full.
+fetch_all: $(USYS_SRC)/verilator/.git/$(GOTREPO)
+$(USYS_SRC)/verilator/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone http://git.veripool.org/git/verilator \
+			--branch=verilator_3_912
+	touch $@
+
 # }}} fetch
 
 # {{{ build
@@ -125,6 +133,12 @@ build_tmux: build_libevent build_ncurses $(USYS_SRC)/tmux/.git/$(GOTREPO)
 			LDFLAGS="-static -L$(USYS)/include -L$(USYS)/include/ncurses -L$(USYS)/lib" \
 			make
 
+build_all: build_verilator
+build_verilator: $(USYS_SRC)/verilator/.git/$(GOTREPO)
+	cd $(USYS_SRC)/verilator; autoconf
+	cd $(USYS_SRC)/verilator; ./configure --prefix=$(USYS)
+	cd $(USYS_SRC)/verilator; make
+
 # }}} fetch
 
 # {{{ install
@@ -144,6 +158,9 @@ meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 tmux: build_tmux
 	cd $(USYS_SRC)/tmux; make install
 
+verilator: build_verilator
+	cd $(USYS_SRC)/verilator; make install
+
 # }}} install
 
 tidy:
@@ -151,3 +168,4 @@ tidy:
 	rm -rf $(USYS_SRC)/libevent
 	rm -rf $(USYS_SRC)/ncurses*
 	rm -rf $(USYS_SRC)/tmux
+	rm -rf $(USYS_SRC)/verilator
