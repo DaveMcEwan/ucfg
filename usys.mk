@@ -38,6 +38,7 @@ all: dreampie
 all: git
 all: meld
 all: tmux
+all: verilator
 
 usysdir:
 	mkdir -p $(USYS)/bin
