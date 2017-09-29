@@ -38,6 +38,7 @@ all: cpython2
 all: cpython3
 all: dreampie
 all: git
+all: iverilog
 all: meld
 all: tmux
 all: verilator
@@ -78,6 +79,13 @@ $(USYS_SRC)/git/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/git/git.git \
 			--depth=1 --branch=v2.14.0
+	touch $@
+
+fetch_all: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
+$(USYS_SRC)/iverilog/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/steveicarus/iverilog.git \
+			--depth=1 --branch=v10_2
 	touch $@
 
 #	--depth=1 --branch=release-2.0.19-stable
@@ -137,6 +145,12 @@ build_all: build_git
 build_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 	cd $(USYS_SRC)/git; make prefix=$(USYS)
 
+build_all: build_iverilog
+build_iverilog: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
+	cd $(USYS_SRC)/iverilog; autoconf
+	cd $(USYS_SRC)/iverilog; ./configure --prefix=$(USYS)
+	cd $(USYS_SRC)/iverilog; make
+
 build_all: build_libevent
 build_libevent: $(USYS_SRC)/libevent/.git/$(GOTREPO)
 	cd $(USYS_SRC)/libevent; ./autogen.sh
@@ -186,6 +200,9 @@ dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 git: build_git
 	cd $(USYS_SRC)/git; make prefix=$(USYS) install
 
+iverilog: build_iverilog
+	cd $(USYS_SRC)/iverilog; make install
+
 meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/meld
 	cd $(USYS)/bin; ln -s $(USYS_SRC)/meld/bin/meld meld
@@ -206,6 +223,7 @@ tidy:
 	rm -rf $(USYS_SRC)/cpython2
 	rm -rf $(USYS_SRC)/cpython3
 	rm -rf $(USYS_SRC)/git
+	rm -rf $(USYS_SRC)/iverilog
 	rm -rf $(USYS_SRC)/libevent
 	rm -rf $(USYS_SRC)/ncurses*
 	rm -rf $(USYS_SRC)/tmux
