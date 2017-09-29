@@ -55,6 +55,7 @@ fi
 
 ORIGPATH=$PATH
 NEWPATH="~/bin"
+NEWPATH="~/ucfg/usys/bin"
 NEWPATH="/usr/local/texlive/2016/bin/x86_64-linux:$NEWPATH"
 NEWPATH="~/build/verilator/bin:$NEWPATH"
 export PATH="$NEWPATH:$ORIGPATH"
