@@ -34,6 +34,8 @@ GOTREPO := REPO_EXISTS_NOTOUCH
 
 default: all
 
+all: cpython2
+all: cpython3
 all: dreampie
 all: git
 all: meld
@@ -49,6 +51,20 @@ usysdir:
 # These git repos are *not* suitable for upstream development.
 # --depth=1 --branch=<version> gets only the tree at that single tag, avoiding
 # the waste of disk space and bandwidth of getting the entire repo with history.
+
+fetch_all: $(USYS_SRC)/cpython2/.git/$(GOTREPO)
+$(USYS_SRC)/cpython2/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/python/cpython.git cpython2\
+			--depth=1 --branch=2.7
+	touch $@
+
+fetch_all: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
+$(USYS_SRC)/cpython3/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/python/cpython.git cpython3\
+			--depth=1 --branch=3.6
+	touch $@
 
 fetch_all: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 $(USYS_SRC)/dreampie/.git/$(GOTREPO): usysdir
@@ -105,6 +121,18 @@ $(USYS_SRC)/verilator/.git/$(GOTREPO): usysdir
 # {{{ build
 # Compile libraries and applications.
 
+build_all: build_cpython2
+build_cpython2: $(USYS_SRC)/cpython2/.git/$(GOTREPO)
+	cd $(USYS_SRC)/cpython2; ./configure --prefix=$(USYS)
+	cd $(USYS_SRC)/cpython2; make
+	cd $(USYS_SRC)/cpython2; make test
+
+build_all: build_cpython3
+build_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
+	cd $(USYS_SRC)/cpython3; ./configure --prefix=$(USYS)
+	cd $(USYS_SRC)/cpython3; make
+	cd $(USYS_SRC)/cpython3; make test
+
 build_all: build_git
 build_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 	cd $(USYS_SRC)/git; make prefix=$(USYS)
@@ -145,6 +173,12 @@ build_verilator: $(USYS_SRC)/verilator/.git/$(GOTREPO)
 # {{{ install
 # Install to $UCFG/bin
 
+cpython2: build_cpython2
+	cd $(USYS_SRC)/cpython2; make install
+
+cpython3: build_cpython3
+	cd $(USYS_SRC)/cpython3; make install
+
 dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/dreampie
 	cd $(USYS)/bin; ln -s $(USYS_SRC)/dreampie/dreampie dreampie
@@ -165,6 +199,8 @@ verilator: build_verilator
 # }}} install
 
 tidy:
+	rm -rf $(USYS_SRC)/cpython2
+	rm -rf $(USYS_SRC)/cpython3
 	rm -rf $(USYS_SRC)/git
 	rm -rf $(USYS_SRC)/libevent
 	rm -rf $(USYS_SRC)/ncurses*
