@@ -131,15 +131,15 @@ build_tmux: build_libevent build_ncurses $(USYS_SRC)/tmux/.git/$(GOTREPO)
 # Install to $UCFG/bin
 
 dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
-	rm -f $(SELF)/bin/dreampie
-	cd $(SELF)/bin; ln -s $(USYS_SRC)/dreampie/dreampie dreampie
+	rm -f $(USYS)/bin/dreampie
+	cd $(USYS)/bin; ln -s $(USYS_SRC)/dreampie/dreampie dreampie
 
 git: build_git
 	cd $(USYS_SRC)/git; make prefix=$(USYS) install
 
 meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
-	rm -f $(SELF)/bin/meld
-	cd $(SELF)/bin; ln -s $(USYS_SRC)/meld/bin/meld meld
+	rm -f $(USYS)/bin/meld
+	cd $(USYS)/bin; ln -s $(USYS_SRC)/meld/bin/meld meld
 
 tmux: build_tmux
 	cd $(USYS_SRC)/tmux; make install
