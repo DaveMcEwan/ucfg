@@ -40,7 +40,7 @@ all: meld
 all: tmux
 
 usysdir:
-	mkdir -p $(USYS)
+	mkdir -p $(USYS)/bin
 	mkdir -p $(USYS_SRC)
 
 # {{{ fetch
