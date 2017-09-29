@@ -198,6 +198,10 @@ verilator: build_verilator
 
 # }}} install
 
+# NOTE: tidy is not the same as a usual 'make clean'.
+# This rule is just to save disk space, not to return to a known state.
+# Just the build directories are removed, not the binaries.
+all: tidy
 tidy:
 	rm -rf $(USYS_SRC)/cpython2
 	rm -rf $(USYS_SRC)/cpython3
