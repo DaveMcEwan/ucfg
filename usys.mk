@@ -38,6 +38,7 @@ all: cpython2
 all: cpython3
 all: dreampie
 all: git
+all: graphviz
 all: iverilog
 all: meld
 all: tmux
@@ -79,6 +80,13 @@ $(USYS_SRC)/git/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/git/git.git \
 			--depth=1 --branch=v2.14.0
+	touch $@
+
+fetch_all: $(USYS_SRC)/graphviz/.git/$(GOTREPO)
+$(USYS_SRC)/graphviz/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://gitlab.com/graphviz/graphviz.git \
+			--depth=1 --branch=stable_release_2.40.1
 	touch $@
 
 fetch_all: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
@@ -145,6 +153,12 @@ build_all: build_git
 build_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 	cd $(USYS_SRC)/git; make prefix=$(USYS)
 
+build_all: build_graphviz
+build_graphviz: $(USYS_SRC)/graphviz/.git/$(GOTREPO)
+	cd $(USYS_SRC)/graphviz; ./autogen.sh
+	cd $(USYS_SRC)/graphviz; ./configure --prefix=$(USYS)
+	cd $(USYS_SRC)/graphviz; make
+
 build_all: build_iverilog
 build_iverilog: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
 	cd $(USYS_SRC)/iverilog; autoconf
@@ -200,6 +214,9 @@ dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 git: build_git
 	cd $(USYS_SRC)/git; make prefix=$(USYS) install
 
+graphviz: build_graphviz
+	cd $(USYS_SRC)/graphviz; make install
+
 iverilog: build_iverilog
 	cd $(USYS_SRC)/iverilog; make install
 
@@ -223,6 +240,7 @@ tidy:
 	rm -rf $(USYS_SRC)/cpython2
 	rm -rf $(USYS_SRC)/cpython3
 	rm -rf $(USYS_SRC)/git
+	rm -rf $(USYS_SRC)/graphviz
 	rm -rf $(USYS_SRC)/iverilog
 	rm -rf $(USYS_SRC)/libevent
 	rm -rf $(USYS_SRC)/ncurses*
