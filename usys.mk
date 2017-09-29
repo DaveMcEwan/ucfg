@@ -146,3 +146,8 @@ tmux: build_tmux
 
 # }}} install
 
+tidy:
+	rm -rf $(USYS_SRC)/git
+	rm -rf $(USYS_SRC)/libevent
+	rm -rf $(USYS_SRC)/ncurses
+	rm -rf $(USYS_SRC)/tmux
