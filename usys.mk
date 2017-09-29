@@ -88,7 +88,7 @@ fetch_all: $(USYS_SRC)/tmux/.git/$(GOTREPO)
 $(USYS_SRC)/tmux/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/tmux/tmux.git \
-			--depth=1 --branch=1.8
+			--depth=1 --branch=2.5
 	touch $@
 
 # }}} fetch
