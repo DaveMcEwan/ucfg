@@ -102,14 +102,6 @@ $(USYS_SRC)/iverilog/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=v10_2
 	touch $@
 
-#	--depth=1 --branch=release-2.0.19-stable
-fetch_all: $(USYS_SRC)/libevent/.git/$(GOTREPO)
-$(USYS_SRC)/libevent/.git/$(GOTREPO): usysdir
-	-cd $(USYS_SRC); \
-		git clone https://github.com/libevent/libevent.git \
-			--depth=1 --branch=release-2.1.8-stable
-	touch $@
-
 fetch_all: $(USYS_SRC)/meld/.git/$(GOTREPO)
 $(USYS_SRC)/meld/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
@@ -117,14 +109,13 @@ $(USYS_SRC)/meld/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=1.8.6
 	touch $@
 
-fetch_all: $(USYS_SRC)/ncurses-5.9.tar.gz
-$(USYS_SRC)/ncurses-5.9.tar.gz: usysdir
-	rm -f $@
-	cd $(USYS_SRC); wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
-	cd $(USYS_SRC); tar xzf ncurses-5.9.tar.gz
-
-fetch_all: $(USYS_SRC)/tmux/.git/$(GOTREPO)
+fetch_tmux: $(USYS_SRC)/tmux/.git/$(GOTREPO)
 $(USYS_SRC)/tmux/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/libevent/libevent.git \
+			--depth=1 --branch=release-2.1.8-stable
+	-cd $(USYS_SRC); wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
+	-cd $(USYS_SRC); tar xzf ncurses-5.9.tar.gz
 	-cd $(USYS_SRC); \
 		git clone https://github.com/tmux/tmux.git \
 			--depth=1 --branch=2.5
@@ -171,21 +162,14 @@ build_iverilog: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
 	cd $(USYS_SRC)/iverilog; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/iverilog; make
 
-build_all: build_libevent
-build_libevent: $(USYS_SRC)/libevent/.git/$(GOTREPO)
+build_tmux: $(USYS_SRC)/tmux/.git/$(GOTREPO)
 	cd $(USYS_SRC)/libevent; ./autogen.sh
 	cd $(USYS_SRC)/libevent; ./configure --disable-shared --prefix=$(USYS)
 	cd $(USYS_SRC)/libevent; make
 	cd $(USYS_SRC)/libevent; make install
-
-build_all: build_ncurses
-build_ncurses: $(USYS_SRC)/ncurses-5.9.tar.gz
 	cd $(USYS_SRC)/ncurses-5.9; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/ncurses-5.9; make
 	cd $(USYS_SRC)/ncurses-5.9; make install
-
-build_all: build_tmux
-build_tmux: build_libevent build_ncurses $(USYS_SRC)/tmux/.git/$(GOTREPO)
 	cd $(USYS_SRC)/tmux; ./autogen.sh
 	cd $(USYS_SRC)/tmux; \
 		./configure --prefix=$(USYS) \
