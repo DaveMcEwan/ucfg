@@ -60,49 +60,49 @@ python: dreampie
 # --depth=1 --branch=<version> gets only the tree at that single tag, avoiding
 # the waste of disk space and bandwidth of getting the entire repo with history.
 
-fetch_all: $(USYS_SRC)/cpython2/.git/$(GOTREPO)
+fetch_cpython2: $(USYS_SRC)/cpython2/.git/$(GOTREPO)
 $(USYS_SRC)/cpython2/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/python/cpython.git cpython2\
 			--depth=1 --branch=2.7
 	touch $@
 
-fetch_all: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
+fetch_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
 $(USYS_SRC)/cpython3/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/python/cpython.git cpython3\
 			--depth=1 --branch=3.6
 	touch $@
 
-fetch_all: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
+fetch_dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 $(USYS_SRC)/dreampie/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/noamraph/dreampie.git \
 			--depth=1 --branch=1.2.1
 	touch $@
 
-fetch_all: $(USYS_SRC)/git/.git/$(GOTREPO)
+fetch_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 $(USYS_SRC)/git/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/git/git.git \
 			--depth=1 --branch=v2.14.0
 	touch $@
 
-fetch_all: $(USYS_SRC)/graphviz/.git/$(GOTREPO)
+fetch_graphviz: $(USYS_SRC)/graphviz/.git/$(GOTREPO)
 $(USYS_SRC)/graphviz/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://gitlab.com/graphviz/graphviz.git \
 			--depth=1 --branch=stable_release_2.40.1
 	touch $@
 
-fetch_all: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
+fetch_iverilog: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
 $(USYS_SRC)/iverilog/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/steveicarus/iverilog.git \
 			--depth=1 --branch=v10_2
 	touch $@
 
-fetch_all: $(USYS_SRC)/meld/.git/$(GOTREPO)
+fetch_meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 $(USYS_SRC)/meld/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone https://github.com/Gnome/meld.git \
@@ -122,7 +122,7 @@ $(USYS_SRC)/tmux/.git/$(GOTREPO): usysdir
 	touch $@
 
 # NOTE: veripool git server only supports dumb protocols so need to clone full.
-fetch_all: $(USYS_SRC)/verilator/.git/$(GOTREPO)
+fetch_verilator: $(USYS_SRC)/verilator/.git/$(GOTREPO)
 $(USYS_SRC)/verilator/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
 		git clone http://git.veripool.org/git/verilator \
@@ -134,29 +134,24 @@ $(USYS_SRC)/verilator/.git/$(GOTREPO): usysdir
 # {{{ build
 # Compile libraries and applications.
 
-build_all: build_cpython2
 build_cpython2: $(USYS_SRC)/cpython2/.git/$(GOTREPO)
 	cd $(USYS_SRC)/cpython2; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/cpython2; make
 	cd $(USYS_SRC)/cpython2; make test
 
-build_all: build_cpython3
 build_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
 	cd $(USYS_SRC)/cpython3; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/cpython3; make
 	cd $(USYS_SRC)/cpython3; make test
 
-build_all: build_git
 build_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 	cd $(USYS_SRC)/git; make prefix=$(USYS)
 
-build_all: build_graphviz
 build_graphviz: $(USYS_SRC)/graphviz/.git/$(GOTREPO)
 	cd $(USYS_SRC)/graphviz; ./autogen.sh
 	cd $(USYS_SRC)/graphviz; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/graphviz; make
 
-build_all: build_iverilog
 build_iverilog: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
 	cd $(USYS_SRC)/iverilog; autoconf
 	cd $(USYS_SRC)/iverilog; ./configure --prefix=$(USYS)
@@ -180,7 +175,6 @@ build_tmux: $(USYS_SRC)/tmux/.git/$(GOTREPO)
 			LDFLAGS="-static -L$(USYS)/include -L$(USYS)/include/ncurses -L$(USYS)/lib" \
 			make
 
-build_all: build_verilator
 build_verilator: $(USYS_SRC)/verilator/.git/$(GOTREPO)
 	cd $(USYS_SRC)/verilator; autoconf
 	cd $(USYS_SRC)/verilator; ./configure --prefix=$(USYS)
