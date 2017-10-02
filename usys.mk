@@ -7,21 +7,16 @@
 # the prefix $UCFG/usys.
 # This is quite useful in addition to the main ucfg rules for setting up
 # consistent environments, or just for remembering how you got your enviroment
-# consisnent environments, or just for remembering how you got your enviroment
 # in the first place.
 # The string $UCFG/usys/bin will need to be prepended to $PATH.
 #
 # Run from $UCFG directory like:
 #     make -f usys.mk <tool>
 #
-# Where tool is one of:
-# - dreampie
-# - git
-# - meld
-# - tmux
-#
-# Or to build and locally install everything like:
-#     make -f usys.mk all
+# Or to build and locally install groups of tools like:
+#     make -f usys.mk dev
+#     make -f usys.mk python
+#     make -f usys.mk silicon
 
 SELF := $(PWD)
 SELF_NAME := $(shell basename $(SELF))
@@ -33,21 +28,31 @@ USYS_SRC := $(USYS)/src
 # Placed inside .git of repos so it isn't picked up by other tools.
 GOTREPO := REPO_EXISTS_NOTOUCH
 
-default: all
-
-all: cpython2
-all: cpython3
-all: dreampie
-all: git
-all: graphviz
-all: iverilog
-all: meld
-all: tmux
-all: verilator
+default: dev
 
 usysdir:
 	mkdir -p $(USYS)/bin
 	mkdir -p $(USYS_SRC)
+
+# {{{ groups
+
+dev: gcc
+dev: git
+dev: tmux
+#dev: vim
+dev: graphviz
+dev: meld
+#dev: xdu
+
+silicon: iverilog
+silicon: verilator
+#silicon: yosys
+
+python: cpython2
+python: cpython3
+python: dreampie
+
+# }}} groups
 
 # {{{ fetch
 # Fetch local copy of application repositories.
