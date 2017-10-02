@@ -152,7 +152,7 @@ build_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
 	cd $(USYS_SRC)/cpython3; make
 	cd $(USYS_SRC)/cpython3; make test
 
-build_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO) build_gcc_reqs
+build_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO)
 	mkdir -p $(USYS_SRC)/gcc-build
 	cd $(USYS_SRC)/gcc-build; $(USYS_SRC)/gcc/configure --prefix=$(USYS) \
 		--disable-multilib
