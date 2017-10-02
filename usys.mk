@@ -6,6 +6,7 @@
 # All sources are fetched to $UCFG/usys/src and everything is installed to
 # the prefix $UCFG/usys.
 # This is quite useful in addition to the main ucfg rules for setting up
+# consistent environments, or just for remembering how you got your enviroment
 # consisnent environments, or just for remembering how you got your enviroment
 # in the first place.
 # The string $UCFG/usys/bin will need to be prepended to $PATH.
