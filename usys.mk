@@ -81,6 +81,14 @@ $(USYS_SRC)/dreampie/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=1.2.1
 	touch $@
 
+fetch_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO)
+$(USYS_SRC)/gcc/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/gcc-mirror/gcc.git \
+			--depth=1 --branch=gcc-7_2_0-release
+	cd $(USYS_SRC)/gcc; ./contrib/download_prerequisites
+	touch $@
+
 fetch_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 $(USYS_SRC)/git/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
@@ -144,6 +152,12 @@ build_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
 	cd $(USYS_SRC)/cpython3; make
 	cd $(USYS_SRC)/cpython3; make test
 
+build_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO) build_gcc_reqs
+	mkdir -p $(USYS_SRC)/gcc-build
+	cd $(USYS_SRC)/gcc-build; $(USYS_SRC)/gcc/configure --prefix=$(USYS) \
+		--disable-multilib
+	cd $(USYS_SRC)/gcc-build; make
+
 build_git: $(USYS_SRC)/git/.git/$(GOTREPO)
 	cd $(USYS_SRC)/git; make prefix=$(USYS)
 
@@ -195,6 +209,9 @@ dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/dreampie
 	cd $(USYS)/bin; ln -s $(USYS_SRC)/dreampie/dreampie dreampie
 
+gcc: build_gcc
+	cd $(USYS_SRC)/gcc-build; make install
+
 git: build_git
 	cd $(USYS_SRC)/git; make prefix=$(USYS) install
 
@@ -226,6 +243,10 @@ tidy_cpython2:
 
 tidy_cpython3:
 	rm -rf $(USYS_SRC)/cpython3
+
+tidy_gcc:
+	rm -rf $(USYS_SRC)/gcc
+	rm -rf $(USYS_SRC)/gcc-build
 
 tidy_git:
 	rm -rf $(USYS_SRC)/git
