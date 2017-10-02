@@ -137,6 +137,13 @@ $(USYS_SRC)/verilator/.git/$(GOTREPO): usysdir
 			--branch=verilator_3_912
 	touch $@
 
+fetch_yosys: $(USYS_SRC)/yosys/.git/$(GOTREPO)
+$(USYS_SRC)/yosys/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/cliffordwolf/yosys.git \
+			--depth=1 --branch=yosys-0.7
+	touch $@
+
 # }}} fetch
 
 # {{{ build
@@ -194,6 +201,10 @@ build_verilator: $(USYS_SRC)/verilator/.git/$(GOTREPO)
 	cd $(USYS_SRC)/verilator; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/verilator; make
 
+build_yosys: $(USYS_SRC)/yosys/.git/$(GOTREPO)
+	cd $(USYS_SRC)/yosys; make config-gcc
+	cd $(USYS_SRC)/yosys; make PREFIX=$(USYS)
+
 # }}} fetch
 
 # {{{ install
@@ -231,6 +242,9 @@ tmux: build_tmux
 verilator: build_verilator
 	cd $(USYS_SRC)/verilator; make install
 
+yosys: build_yosys
+	cd $(USYS_SRC)/yosys; make install
+
 # }}} install
 
 # {{{ tidy
@@ -264,5 +278,8 @@ tidy_tmux:
 
 tidy_verilator:
 	rm -rf $(USYS_SRC)/verilator
+
+tidy_yosys:
+	rm -rf $(USYS_SRC)/yosys
 
 # }}} tidy
