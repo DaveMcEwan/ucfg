@@ -18,3 +18,6 @@ alias g="grep -Hn --color"
 # Print a specific line from a file.
 printline_() { sed -n -e "$1{p;q;}" "$2"; }
 alias printline="printline_"
+
+# git shortcuts
+alias gitac="git commit -a -m"
