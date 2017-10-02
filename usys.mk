@@ -216,17 +216,32 @@ verilator: build_verilator
 
 # }}} install
 
+# {{{ tidy
 # NOTE: tidy is not the same as a usual 'make clean'.
 # This rule is just to save disk space, not to return to a known state.
 # Just the build directories are removed, not the binaries.
-all: tidy
-tidy:
+
+tidy_cpython2:
 	rm -rf $(USYS_SRC)/cpython2
+
+tidy_cpython3:
 	rm -rf $(USYS_SRC)/cpython3
+
+tidy_git:
 	rm -rf $(USYS_SRC)/git
+
+tidy_graphviz:
 	rm -rf $(USYS_SRC)/graphviz
+
+tidy_iverilog:
 	rm -rf $(USYS_SRC)/iverilog
+
+tidy_tmux:
 	rm -rf $(USYS_SRC)/libevent
 	rm -rf $(USYS_SRC)/ncurses*
 	rm -rf $(USYS_SRC)/tmux
+
+tidy_verilator:
 	rm -rf $(USYS_SRC)/verilator
+
+# }}} tidy
