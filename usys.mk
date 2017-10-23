@@ -81,6 +81,13 @@ $(USYS_SRC)/dreampie/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=1.2.1
 	touch $@
 
+fetch_ffmpeg: $(USYS_SRC)/ffmpeg/.git/$(GOTREPO)
+$(USYS_SRC)/ffmpeg/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg \
+			--depth=1 --branch=release/3.4
+	touch $@
+
 fetch_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO)
 $(USYS_SRC)/gcc/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
@@ -165,6 +172,11 @@ build_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
 	cd $(USYS_SRC)/cpython3; make
 	cd $(USYS_SRC)/cpython3; make test
 
+# TODO: --disable-x86asm cripples exe but nasm/yasm not found.
+build_ffmpeg: $(USYS_SRC)/ffmpeg/.git/$(GOTREPO)
+	cd $(USYS_SRC)/ffmpeg; ./configure --prefix=$(USYS) --disable-x86asm
+	cd $(USYS_SRC)/ffmpeg; make
+
 build_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO)
 	mkdir -p $(USYS_SRC)/gcc-build
 	cd $(USYS_SRC)/gcc-build; $(USYS_SRC)/gcc/configure --prefix=$(USYS) \
@@ -230,6 +242,9 @@ cpython3: build_cpython3
 dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/dreampie
 	cd $(USYS)/bin; ln -s $(USYS_SRC)/dreampie/dreampie dreampie
+
+ffmpeg: build_ffmpeg
+	cd $(USYS_SRC)/ffmpeg; make install
 
 gcc: build_gcc
 	cd $(USYS_SRC)/gcc-build; make install
