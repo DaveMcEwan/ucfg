@@ -110,6 +110,12 @@ $(USYS_SRC)/iverilog/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=v10_2
 	touch $@
 
+fetch_libressl: $(USYS_SRC)/libressl/.git/$(GOTREPO)
+	-cd $(USYS_SRC); \
+		git clone https://github.com/libressl-portable/portable.git libressl \
+			--depth=1 --branch=OPENBSD_6_1
+	touch $@
+
 fetch_meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 $(USYS_SRC)/meld/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
@@ -178,6 +184,11 @@ build_iverilog: $(USYS_SRC)/iverilog/.git/$(GOTREPO)
 	cd $(USYS_SRC)/iverilog; ./configure --prefix=$(USYS)
 	cd $(USYS_SRC)/iverilog; make
 
+build_libressl: $(USYS_SRC)/libressl/.git/$(GOTREPO)
+	cd $(USYS_SRC)/libressl; ./autogen.sh
+	cd $(USYS_SRC)/libressl; ./configure --prefix=$(USYS)
+	cd $(USYS_SRC)/libressl; make
+
 build_tmux: $(USYS_SRC)/tmux/.git/$(GOTREPO)
 	cd $(USYS_SRC)/libevent; ./autogen.sh
 	cd $(USYS_SRC)/libevent; ./configure --disable-shared --prefix=$(USYS)
@@ -231,6 +242,9 @@ graphviz: build_graphviz
 
 iverilog: build_iverilog
 	cd $(USYS_SRC)/iverilog; make install
+
+libressl: build_libressl
+	cd $(USYS_SRC)/libressl; make install DESTDIR=$(USYS)
 
 meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/meld
