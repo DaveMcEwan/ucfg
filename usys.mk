@@ -297,3 +297,53 @@ tidy_yosys:
 	rm -rf $(USYS_SRC)/yosys
 
 # }}} tidy
+
+# {{{ remove
+# Remove all the installed files.
+
+rm_cpython2:
+	-rm -rf $(USYS)/bin/python2*
+	-rm -rf $(USYS)/bin/idle
+	-rm -rf $(USYS)/include/python2*
+	-rm -rf $(USYS)/lib/pkgconfig/python2*
+	-rm -rf $(USYS)/share/man/man1/python2*
+
+rm_cpython3:
+	-rm -rf $(USYS)/bin/python3*
+	-rm -rf $(USYS)/bin/2to3*
+	-rm -rf $(USYS)/bin/idle3*
+	-rm -rf $(USYS)/include/python3*
+	-rm -rf $(USYS)/lib/pkgconfig/python3*
+	-rm -rf $(USYS)/share/man/man1/python3*
+
+rm_dreampie:
+	-rm -rf $(USYS)/bin/dreampie
+	-rm -rf $(USYS_SRC)/dreampie
+
+# TODO: gcc
+
+rm_git:
+	-rm -f $(USYS)/bin/git*
+
+rm_graphviz:
+	-rm -f $(USYS)/bin/dot*
+	-rm -f $(USYS)/bin/neato
+
+rm_iverilog:
+	-rm -f $(USYS)/bin/iverilog*
+
+# TODO: libressl
+
+rm_meld:
+	-rm -rf $(USYS)/bin/meld
+	-rm -rf $(USYS_SRC)/meld
+
+rm_tmux:
+	-rm -f $(USYS)/bin/tmux
+
+rm_verilator:
+	-rm -rf $(USYS)/bin/verilator*
+
+# TODO: yosys
+
+# }}} remove
