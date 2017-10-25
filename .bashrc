@@ -58,5 +58,6 @@ NEWPATH="~/bin"
 NEWPATH="~/ucfg/usys/bin:$NEWPATH"
 NEWPATH="/usr/local/texlive/2016/bin/x86_64-linux:$NEWPATH"
 NEWPATH="~/build/verilator/bin:$NEWPATH"
+NEWPATH="/home/local/python2.7/bin:$NEWPATH"
 export PATH="$NEWPATH:$ORIGPATH"
 
