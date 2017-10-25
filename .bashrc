@@ -7,7 +7,7 @@ if [ -f /etc/bash.bashrc ]; then
         . /etc/bash.bashrc
 fi
 
-# If not running interactively, don't do anything
+# If not running interactively, do nothing
 case $- in
     *i*) ;;
       *) return;;
@@ -36,14 +36,8 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+# Set prompt to  hostname and basename of pwd.
+PS1='\h:\W$ '
 
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -59,5 +53,11 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-PATH="~/bin:$PATH"
+ORIGPATH=$PATH
+NEWPATH="~/bin"
+NEWPATH="~/ucfg/usys/bin:$NEWPATH"
+NEWPATH="/usr/local/texlive/2016/bin/x86_64-linux:$NEWPATH"
+NEWPATH="~/build/verilator/bin:$NEWPATH"
+NEWPATH="/home/local/python2.7/bin:$NEWPATH"
+export PATH="$NEWPATH:$ORIGPATH"
 

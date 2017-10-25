@@ -39,6 +39,7 @@ IGNORE += .git
 IGNORE += .gitignore
 IGNORE += LICENSE
 IGNORE += README.md
+IGNORE += usys.mk
 
 PATHS := $(shell ls -A $(addprefix --ignore ,$(IGNORE)))
 RESTORE_PATHS := $(shell ls -A $(BACKUP_DIR))
