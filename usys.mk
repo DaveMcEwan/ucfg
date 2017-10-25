@@ -287,6 +287,9 @@ tidy_cpython2:
 tidy_cpython3:
 	rm -rf $(USYS_SRC)/cpython3
 
+tidy_ffmpeg:
+	rm -rf $(USYS_SRC)/ffmpeg
+
 tidy_gcc:
 	rm -rf $(USYS_SRC)/gcc
 	rm -rf $(USYS_SRC)/gcc-build
