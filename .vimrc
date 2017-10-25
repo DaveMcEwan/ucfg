@@ -1,5 +1,6 @@
 set nocompatible "Don't emulate vi's bugs
 set ff=unix
+set ffs=unix,dos " Default to unix on Windows to prevent git warnings.
 set backspace=indent,start,eol
 
 " Reduce the delay going from INSERT to NORMAL mode.
@@ -63,6 +64,9 @@ set textwidth=80    "Line width to wrap at with the gq command.
 
 " Enable tabs in makefiles
 autocmd FileType make setlocal noexpandtab
+
+" Scala indent should be 2 spaces.
+autocmd FileType scala setlocal tabstop=2
 
 " Removes trailing spaces and replaces tabs with spaces.
 " This is called on write.
