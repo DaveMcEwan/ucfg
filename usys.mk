@@ -88,6 +88,12 @@ $(USYS_SRC)/ffmpeg/.git/$(GOTREPO): usysdir
 			--depth=1 --branch=release/3.4
 	touch $@
 
+fetch_gtkwave:
+	-cd $(USYS_SRC); wget http://gtkwave.sourceforge.net/gtkwave-3.3.86.tar.gz
+	-cd $(USYS_SRC); tar xzf gtkwave-3.3.86.tar.gz
+	-cd $(USYS_SRC); mv gtkwave-3.3.86 gtkwave
+	touch $@
+
 fetch_gcc: $(USYS_SRC)/gcc/.git/$(GOTREPO)
 $(USYS_SRC)/gcc/.git/$(GOTREPO): usysdir
 	-cd $(USYS_SRC); \
@@ -172,6 +178,10 @@ build_cpython3: $(USYS_SRC)/cpython3/.git/$(GOTREPO)
 	cd $(USYS_SRC)/cpython3; make
 	cd $(USYS_SRC)/cpython3; make test
 
+build_gtkwave: fetch_gtkwave
+	cd $(USYS_SRC)/gtkwave; ./configure --prefix=$(USYS) LDFLAGS="-static"
+	cd $(USYS_SRC)/gtkwave; make
+
 # TODO: --disable-x86asm cripples exe but nasm/yasm not found.
 build_ffmpeg: $(USYS_SRC)/ffmpeg/.git/$(GOTREPO)
 	cd $(USYS_SRC)/ffmpeg; ./configure --prefix=$(USYS) --disable-x86asm
@@ -245,6 +255,9 @@ dreampie: $(USYS_SRC)/dreampie/.git/$(GOTREPO)
 
 ffmpeg: build_ffmpeg
 	cd $(USYS_SRC)/ffmpeg; make install
+
+gtkwave: build_gtkwave
+	cd $(USYS_SRC)/gtkwave; make install
 
 gcc: build_gcc
 	cd $(USYS_SRC)/gcc-build; make install
