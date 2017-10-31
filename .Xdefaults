@@ -31,7 +31,7 @@ xterm*color15: #ffffff
 xterm*font: *-Monospace-*-Regular-*-10-*
 
 ! Window size
-*geometry: 80x40
+*geometry: 170x70
 
 ! Emacs
 Emacs.cursorColor: #ffffff
