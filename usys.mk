@@ -42,6 +42,7 @@ dev: tmux
 #dev: vim
 dev: graphviz
 dev: meld
+dev: st
 #dev: xdu
 
 silicon: iverilog
@@ -135,6 +136,12 @@ $(USYS_SRC)/meld/.git/$(GOTREPO): usysdir
 		git clone https://github.com/Gnome/meld.git \
 			--depth=1 --branch=1.8.6
 	touch $@
+
+fetch_st: $(USYS_SRC)/st/.git/$(GOTREPO)
+$(USYS_SRC)/st/.git/$(GOTREPO): usysdir
+	-cd $(USYS_SRC); \
+		git clone git://git.suckless.org/st \
+			--depth=1 --branch=0.7
 
 fetch_tmux: $(USYS_SRC)/tmux/.git/$(GOTREPO)
 $(USYS_SRC)/tmux/.git/$(GOTREPO): usysdir
@@ -278,6 +285,9 @@ meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/meld
 	cd $(USYS)/bin; ln -s $(USYS_SRC)/meld/bin/meld meld
 
+st: $(USYS_SRC)/st/.git/$(GOTREPO)
+	cd $(USYS_SRC)/st; make clean install PREFIX=$(USYS)
+
 tmux: build_tmux
 	cd $(USYS_SRC)/tmux; make install
 
@@ -315,6 +325,9 @@ tidy_graphviz:
 
 tidy_iverilog:
 	rm -rf $(USYS_SRC)/iverilog
+
+tidy_st:
+	rm -rf $(USYS_SRC)/st
 
 tidy_tmux:
 	rm -rf $(USYS_SRC)/libevent
@@ -368,6 +381,10 @@ rm_iverilog:
 rm_meld:
 	-rm -rf $(USYS)/bin/meld
 	-rm -rf $(USYS_SRC)/meld
+
+rm_st:
+	-rm -f $(USYS)/bin/st
+	-rm -f $(USYS)/share/man/man1/st.1
 
 rm_tmux:
 	-rm -f $(USYS)/bin/tmux
