@@ -285,7 +285,7 @@ meld: $(USYS_SRC)/meld/.git/$(GOTREPO)
 	rm -f $(USYS)/bin/meld
 	cd $(USYS)/bin; ln -s $(USYS_SRC)/meld/bin/meld meld
 
-st: $(USYS_SRC)/st/.git/$(GOTREPO)
+st: fetch_st
 	cd $(USYS_SRC)/st; make clean install PREFIX=$(USYS)
 
 tmux: build_tmux
