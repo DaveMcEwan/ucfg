@@ -65,8 +65,11 @@ set textwidth=80    "Line width to wrap at with the gq command.
 " Enable tabs in makefiles
 autocmd FileType make setlocal noexpandtab
 
-" Scala indent should be 2 spaces.
+" Scala and C (clang-format defaults) indent should be 2 spaces.
 autocmd FileType scala setlocal tabstop=2
+autocmd FileType c setlocal tabstop=2
+autocmd FileType verilog setlocal tabstop=2
+autocmd FileType verilog_systemverilog setlocal tabstop=2
 
 " Removes trailing spaces and replaces tabs with spaces.
 " This is called on write.
