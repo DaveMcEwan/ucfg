@@ -134,6 +134,7 @@ autocmd FileType verilog setlocal formatoptions-=t
 au BufNewFile,BufRead SCons* set filetype=python
 au BufNewFile,BufRead *.md set filetype=markdown
 au BufNewFile,BufRead *.yml set filetype=yaml
+au BufNewFile,BufRead *.evc set filetype=yaml
 
 " Enable switching syntax highlighting with quick shortcuts
 " '\sv' Verilog
