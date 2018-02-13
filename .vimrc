@@ -9,11 +9,11 @@ set timeoutlen=250
 " Make it hard to enter Ex mode, which I find annoying.
 nnoremap Q <nop>
 
-" Map common keyboard shortcuts
-" Save
+" Save (not within tmux)
 " Ctrl+S
 map  <C-s> :w!<cr>
 imap <C-s> <Esc>:w!<cr>
+command W w " Workaround for mistyping :W instead of :w.
 
 " Copy to system clipboard.
 " This can't be Ctrl+C since that is the shortcut for closing a process.
