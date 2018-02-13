@@ -53,11 +53,15 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-ORIGPATH=$PATH
-NEWPATH="~/bin"
-NEWPATH="~/ucfg/usys/bin:$NEWPATH"
-NEWPATH="/usr/local/texlive/2016/bin/x86_64-linux:$NEWPATH"
-NEWPATH="~/build/verilator/bin:$NEWPATH"
-NEWPATH="/home/local/python2.7/bin:$NEWPATH"
-export PATH="$NEWPATH:$ORIGPATH"
+export VISUAL=vim
+export EDITOR=vim
 
+PATH="~/bin:$PATH"
+PATH="~/ucfg/usys/bin:$PATH"
+#PATH="/space/cuda-9.0/bin:$PATH"
+export PATH="$PATH"
+
+export CUDA_HOME="/usr/local/cuda"
+export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+
+source /space/xilinx/Vivado/2017.3/settings64.sh
