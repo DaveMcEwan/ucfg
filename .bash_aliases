@@ -21,3 +21,6 @@ alias printline="printline_"
 
 # git shortcuts
 alias gitac="git commit -a -m"
+
+# Webcam snapshot
+alias cam="ffmpeg -i /dev/video0 -ss 0:0:1 -frames 1 ~/cam.png -y"
