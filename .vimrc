@@ -100,6 +100,9 @@ set showcmd         "Show the command being typed
 
 set noswapfile      "Don't make a swap file
 
+set modelines=0
+set nomodeline
+
 " Cursor line and column on by default. Toggle with '\cl' '\cc'.
 set cursorline                              "Highlight the current line
 if has("gui_running")
