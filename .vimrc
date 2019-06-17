@@ -82,6 +82,18 @@ autocmd FileAppendPre   * :call TrimWhiteSpace()
 autocmd FilterWritePre  * :call TrimWhiteSpace()
 autocmd BufWritePre     * :call TrimWhiteSpace()
 
+" vim -b : edit binary using xxd-format!
+augroup Binary
+  au!
+  au BufReadPre  *.bin,*.BIN let &bin=1
+  au BufReadPost *.bin,*.BIN if &bin | %!xxd
+  au BufReadPost *.bin,*.BIN set ft=xxd | endif
+  au BufWritePre *.bin,*.BIN if &bin | %!xxd -r
+  au BufWritePre *.bin,*.BIN endif
+  au BufWritePost *.bin,*.BIN if &bin | %!xxd
+  au BufWritePost *.bin,*.BIN set nomod | endif
+augroup END
+
 set showmatch       "Highlight matching bracket
 "Use the % key to jump to matching bracket
 noremap % v%
