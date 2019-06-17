@@ -68,8 +68,12 @@ autocmd FileType make setlocal noexpandtab
 " Scala and C (clang-format defaults) indent should be 2 spaces.
 autocmd FileType scala setlocal tabstop=2
 autocmd FileType c setlocal tabstop=2
+autocmd FileType haskell setlocal tabstop=2
 autocmd FileType verilog setlocal tabstop=2
 autocmd FileType verilog_systemverilog setlocal tabstop=2
+
+" Autowrap certain formats at textwidth.
+autocmd FileType c,markdown,python,tex setlocal formatoptions+=t
 
 " Removes trailing spaces and replaces tabs with spaces.
 " This is called on write.
