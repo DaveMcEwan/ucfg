@@ -14,6 +14,7 @@ alias encrypt="openssl enc -bf-cbc -a -salt -in"
 alias decrypt="openssl enc -d -bf-cbc -a -in"
 
 alias g="grep -Hn --color"
+alias l="ls -l"
 
 # Print a specific line from a file.
 printline_() { sed -n -e "$1{p;q;}" "$2"; }
