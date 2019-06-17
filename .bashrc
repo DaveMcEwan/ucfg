@@ -56,9 +56,9 @@ fi
 export VISUAL=vim
 export EDITOR=vim
 
-PATH="~/bin:$PATH"
+PATH="~/bin:/usr/local/bin:/usr/bin:/bin"
+PATH="~/.local/bin:$PATH"
 PATH="~/ucfg/usys/bin:$PATH"
-#PATH="/space/cuda-9.0/bin:$PATH"
 export PATH="$PATH"
 
 export CUDA_HOME="/usr/local/cuda"
