@@ -58,22 +58,19 @@ nnoremap <F10> :execute " grep -Hnr --exclude-dir=.svn " . expand("<cword>") . "
 
 set autoindent      "Autoindent
 set expandtab       "Use spaces instead of tabs
-set tabstop=4       "Use 4-space tabs
-set shiftwidth=4    "indent width
+set tabstop=2       "Use 2-space tabs
+set shiftwidth=2    "indent width
 set textwidth=80    "Line width to wrap at with the gq command.
 
 " Enable tabs in makefiles
 autocmd FileType make setlocal noexpandtab
 
-" Scala and C (clang-format defaults) indent should be 2 spaces.
-autocmd FileType scala setlocal tabstop=2
-autocmd FileType c setlocal tabstop=2
-autocmd FileType haskell setlocal tabstop=2
-autocmd FileType verilog setlocal tabstop=2
-autocmd FileType verilog_systemverilog setlocal tabstop=2
+" Python and Rust indents are recommended as 4 spaces.
+autocmd FileType python setlocal tabstop=4
+autocmd FileType rust setlocal tabstop=4
 
 " Autowrap certain formats at textwidth.
-autocmd FileType c,markdown,python,tex setlocal formatoptions+=t
+autocmd FileType c,haskell,markdown,python,rust,tex setlocal formatoptions+=t
 
 " Removes trailing spaces and replaces tabs with spaces.
 " This is called on write.
