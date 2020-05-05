@@ -25,3 +25,6 @@ alias gitac="git commit -a -m"
 
 # Webcam snapshot
 alias cam="ffmpeg -i /dev/video0 -ss 0:0:1 -frames 1 ~/cam.png -y"
+
+# Lynx Markdown viewer
+alias r="pandoc -t html README.md | lynx -stdin"
