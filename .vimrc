@@ -132,8 +132,10 @@ map <Leader>w :set nowrap!
 " '\xx' Show/edit file in hex format.
 " '\xa' Return file to normal editing mode by using xxd reverse mode to patch
 "         the buffer before write.
-map <Leader>xx :%!xxd -g1
-map <Leader>xa :%!xxd -r
+" g1 - groupsize (bytes)
+" c1 - columns
+map <Leader>xx :%!xxd -g1 -c4
+map <Leader>xa :%!xxd -r -g1 -c4
 
 " Syntax highlighting and colourscheme {{{
 
