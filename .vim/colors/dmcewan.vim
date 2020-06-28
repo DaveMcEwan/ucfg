@@ -31,7 +31,7 @@ hi Directory    term=bold           ctermfg=LightCyan                           
 hi Ignore                           ctermfg=Black                                           guifg=bg
 hi IncSearch    term=reverse        cterm=reverse                                                               gui=reverse
 hi LineNr       term=underline      ctermfg=Yellow                                          guifg=Yellow
-hi MatchParen                       ctermfg=Black       ctermbg=DarkGreen   guibg=DarkGreen guifg=White         gui=NONE
+hi MatchParen                       ctermfg=LightBlue   ctermbg=DarkGreen   guibg=DarkGreen guifg=White         gui=NONE
 hi ModeMsg      term=bold           cterm=bold                                                                  gui=bold
 hi MoreMsg      term=bold           ctermfg=LightGreen                                      guifg=SeaGreen      gui=bold
 hi NonText      term=bold           ctermfg=Blue                                            guifg=Blue          gui=bold
