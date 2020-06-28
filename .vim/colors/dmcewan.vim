@@ -13,7 +13,7 @@ endif
 let g:colors_name = "dmcewan"
 
 " Defaults
-hi Normal                           ctermbg=Black       ctermfg=lightgreen  guibg=Black     guifg=lightgreen
+hi Normal                           ctermbg=Black       ctermfg=LightGray   guibg=Black     guifg=LightGray
 
 " Major groups
 hi Comment                          ctermfg=LightRed                                        guifg=LightRed
@@ -23,25 +23,26 @@ hi Statement    term=bold           ctermfg=Yellow                              
 hi PreProc      term=underline      ctermfg=LightBlue                                       guifg=Wheat
 hi Type                             ctermfg=LightGreen                                      guifg=Grey          gui=NONE
 hi Special      term=bold           ctermfg=LightRed                                        guifg=Magenta
-hi Error        term=reverse        ctermbg=Red         ctermfg=White       guibg=Red       guifg=White
-hi Todo                             ctermbg=Yellow      ctermfg=Blue        guibg=Yellow    guifg=Blue
+hi Error        term=reverse        ctermfg=White       ctermbg=Red         guibg=Red       guifg=White
+hi Todo                             ctermfg=White       ctermbg=LightBlue   guibg=Yellow    guifg=Blue
 
-hi Cursor                                               ctermfg=Black       guibg=fg        guifg=Orchid
+hi Cursor                           ctermfg=Black       ctermbg=White       guibg=fg        guifg=Orchid
 hi Directory    term=bold           ctermfg=LightCyan                                       guifg=Cyan
 hi Ignore                           ctermfg=Black                                           guifg=bg
 hi IncSearch    term=reverse        cterm=reverse                                                               gui=reverse
 hi LineNr       term=underline      ctermfg=Yellow                                          guifg=Yellow
+hi MatchParen                       ctermfg=Black       ctermbg=DarkGreen   guibg=DarkGreen guifg=White         gui=NONE
 hi ModeMsg      term=bold           cterm=bold                                                                  gui=bold
 hi MoreMsg      term=bold           ctermfg=LightGreen                                      guifg=SeaGreen      gui=bold
 hi NonText      term=bold           ctermfg=Blue                                            guifg=Blue          gui=bold
 hi Question     term=standout       ctermfg=LightGreen                                      guifg=Cyan          gui=bold
-hi Visual                           ctermbg=DarkGreen   ctermfg=White       guibg=DarkGreen guifg=White         gui=NONE
+hi Visual                           ctermfg=White       ctermbg=DarkGreen   guibg=DarkGreen guifg=White         gui=NONE
 
 " Special characters which are displayed differently from what they really are.
 hi SpecialKey   term=bold           ctermfg=LightBlue                                       guifg=Cyan
 
 " Last search pattern highlighting with 'hlsearch'.
-hi Search                           ctermbg=Blue        ctermfg=White       guibg=Blue      guifg=White
+hi Search                           ctermfg=White       ctermbg=Blue        guibg=Blue      guifg=White
 
 " Status lines windows, and NC is non-current windows.
 hi StatusLine   term=reverse,bold   cterm=reverse                           guibg=DarkBlue  guifg=White         gui=NONE
