@@ -1,6 +1,6 @@
 [DreamPie]
 show-getting-started = False
-font = Sans 10
+font = Courier 10 Pitch 11
 current-theme = Dark
 pprint = True
 use-reshist = True
@@ -8,7 +8,7 @@ reshist-size = 50
 autofold = True
 autofold-numlines = 30
 viewer = u''
-init-code = u'from __future__ import division\nfrom __future__ import print_function\nimport sys\nimport site; site.main()\nimport os\nimport re\nfrom math import *\nimport numpy as np\nimport itertools\nimport time\nif sys.version_info[0] > 2:\n    from importlib import reload\n\ndef clog2(x):\n\treturn int(ceil(log(x, 2)))\n\nphi = (1+sqrt(5))/2\n\nclass Bunch(object):\n\tdef __init__(self, d={}):\n\t\tself.__dict__.update(d)'
+init-code = u'from __future__ import division\nfrom __future__ import print_function\nimport sys\nimport site; site.main()\nimport os\nimport re\nfrom math import *\nimport numpy as np\nimport itertools\nimport time\nif sys.version_info[0] > 2:\n    from importlib import reload\n\ndef clog2(x):\n\treturn int(ceil(log(x, 2)))\n\ndef flog2(x):\n\treturn int(floor(log(x, 2)))\n\nphi = (1+sqrt(5))/2\n\nclass Bunch(object):\n\tdef __init__(self, d={}):\n\t\tself.__dict__.update(d)'
 autoparen = True
 expects-str-2 = execfile chdir open run runeval
 vertical-layout = True
