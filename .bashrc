@@ -67,3 +67,49 @@ source $HOME/dmppl/venv3.8/bin/activate
 export CUDA_HOME="/usr/local/cuda"
 export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 
+
+setup_vivado_2017_3() {
+    source ~/.bashrc
+    source /space/xilinx/Vivado/2017.3/settings64.sh
+}
+
+setup_vivado_2016_4() {
+    source ~/.bashrc
+    source /space/xilinx/Vivado/2016.4/settings64.sh
+}
+
+setup_diamond_3_11() {
+    source ~/.bashrc
+    PREFIX="/usr/local/diamond/3.11_x64"
+    BINARCH="bin/lin64"
+
+    export TEMP="/tmp"
+    export LSC_INI_PATH=""
+    export LSC_DIAMOND=true
+    export TCL_LIBRARY="$PREFIX/tcltk/lib/tcl8.5"
+    export FOUNDRY="$PREFIX/ispfpga"
+
+    export PATH="$FOUNDRY/$BINARCH:$PREFIX/$BINARCH:$PATH"
+}
+
+setup_icecube2_2017_08() {
+    # https://github.com/SymbiFlow/fpga-tool-perf/blob/master/icecubed.sh
+    source ~/.bashrc
+    ICECUBEDIR="/space/lattice/lscc/iCEcube2.2017.08"
+    BINARCH="bin/lin64"
+
+    export FOUNDRY="$ICECUBEDIR/LSE"
+    export SBT_DIR="$ICECUBEDIR/sbt_backend"
+    export SYNPLIFY_PATH="$ICECUBEDIR/synpbase"
+    export TCL_LIBRARY="$SBT_DIR/bin/linux/lib/tcl8.4"
+
+    export LM_LICENSE_FILE="/space/lattice/license.dat"
+
+    LD_LIBRARY_PATH=""
+    export LD_LIBRARY_PATH="$ICECUBEDIR/LSE/bin$BINARCH:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$SBT_DIR/lib/linux/opt:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$SBT_DIR/bin/linux/opt/synpwrap:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$SBT_DIR/bin/linux/opt:$LD_LIBRARY_PATH"
+
+    export PATH="$PREFIX:$PREFIX/LSE/$BINARCH:$PATH"
+}
