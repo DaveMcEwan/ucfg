@@ -62,7 +62,21 @@ PATH="$HOME/ucfg/usys/bin:$PATH"
 PATH="$HOME/dmpvl/tools/bin:$PATH"
 export PATH="$PATH"
 
-source $HOME/dmppl/venv3.8/bin/activate
+setup_ust() {
+  export WK="/ust/work/damcewan"
+  export UST_SW_TREE="$WK/software"
+
+  source /ust/tools/ust/default/bashrc
+  module load tmux
+  module load vim
+  module load binutils
+  module load gcc
+}
+
+setup_py() {
+  module load python3.7
+  source $WK/venv3.7/bin/activate
+}
 
 setup_cuda() {
   export CUDA_HOME="/usr/local/cuda"
