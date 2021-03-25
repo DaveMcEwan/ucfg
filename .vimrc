@@ -13,7 +13,7 @@ nnoremap Q <nop>
 " Ctrl+S
 map  <C-s> :w!<cr>
 imap <C-s> <Esc>:w!<cr>
-command! W w " Workaround for mistyping :W instead of :w.
+command! W noautocmd w " Workaround for mistyping :W instead of :w, no TrimWhiteSpace.
 
 " Copy to system clipboard.
 " This can't be Ctrl+C since that is the shortcut for closing a process.
