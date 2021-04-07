@@ -25,7 +25,10 @@ alias printline="printline_"
 alias gitac="git commit -a -m"
 
 # Webcam snapshot
-alias cam="ffmpeg -i /dev/video0 -ss 0:0:1 -frames 1 ~/cam.png -y"
+cam() {
+  FNAME="cam_`date '+%FT%H%M%S'`.png"
+  ffmpeg -i /dev/video0 -ss 0:0:1 -frames 1 $FNAME -y
+}
 
 # Lynx Markdown viewer
 alias r="pandoc -t html README.md | lynx -stdin"
@@ -43,4 +46,7 @@ mkdiff() {
   svn info . > $FNAME
   svn diff . >> $FNAME
 }
+
+# Extract IPv4 address from a particular interface.
+alias ipaddr="ip addr | grep enp0s31f6 | grep -Po '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+(?=/)'"
 
