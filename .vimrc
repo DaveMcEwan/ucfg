@@ -54,7 +54,7 @@ nnoremap <F9> :VCSAnnotate
 
 " Search for word under cursor in all files in current directory.
 " Uses same button as shift+8 for asterisk which searches current file.
-nnoremap <F10> :execute " grep -Hnr --exclude-dir=.svn " . expand("<cword>") . " ." <cr>
+nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <cr>
 
 set autoindent      "Autoindent
 set expandtab       "Use spaces instead of tabs
@@ -143,6 +143,8 @@ syntax on           "Highlight syntax
 filetype on
 
 " Recognise some specific file extensions
+au BufNewFile,BufRead *.v set filetype=verilog
+au BufNewFile,BufRead *.vh set filetype=verilog
 au BufNewFile,BufRead *.vpp set filetype=verilog
 au BufNewFile,BufRead *.svb set filetype=verilog_systemverilog
 au BufNewFile,BufRead *.svh set filetype=verilog_systemverilog

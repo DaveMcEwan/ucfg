@@ -74,9 +74,11 @@ setup_ust() {
 }
 
 setup_py() {
-  module load python3.7
-  source $WK/venv3.7/bin/activate
+  #module load python3.7
+  #source $WK/venv3.7/bin/activate
+  source $HOME/dmppl/venv3.7/bin/activate
 }
+setup_py()
 
 setup_cuda() {
   export CUDA_HOME="/usr/local/cuda"
