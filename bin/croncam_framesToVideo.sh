@@ -1,6 +1,6 @@
 
 CRONCAM_SHDIR=$(dirname $0)
-source "${CRONCAM_SHDIR}/croncam_common.sh"
+. "${CRONCAM_SHDIR}/croncam_common.sh"
 
 # Only frames named with a date before today are used.
 #ENDFRAME_EPOCH=$(date -d $(date -d 'today' '+%F') '+%s')

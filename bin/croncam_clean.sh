@@ -1,6 +1,6 @@
 
 CRONCAM_SHDIR=$(dirname $0)
-source "${CRONCAM_SHDIR}/croncam_common.sh"
+. "${CRONCAM_SHDIR}/croncam_common.sh"
 
 # Remove old frames and videos.
 find ${CRONCAM_DIR_FRAME} -type f -mtime +${CRONCAM_CLEAN_FRAME_DAYS} -delete

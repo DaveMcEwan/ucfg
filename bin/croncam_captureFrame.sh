@@ -1,6 +1,6 @@
 
 CRONCAM_SHDIR=$(dirname $0)
-source "${CRONCAM_SHDIR}/croncam_common.sh"
+. "${CRONCAM_SHDIR}/croncam_common.sh"
 
 # Capture a single frame from webcam.
 NOW=$(date ${CRONCAM_DATE_FMT})
