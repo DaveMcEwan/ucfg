@@ -3,8 +3,7 @@ CRONCAM_SHDIR=$(dirname $0)
 . "${CRONCAM_SHDIR}/croncam_common.sh"
 
 # Only frames named with a date before today are used.
-#ENDFRAME_EPOCH=$(date -d $(date -d 'today' '+%F') '+%s')
-ENDFRAME_EPOCH=$(date -d $(date -d 'tomorrow' '+%F') '+%s') # TODO
+ENDFRAME_EPOCH=$(date -d $(date -d 'today' '+%F') '+%s')
 
 TMPDIR_EPOCH="${CRONCAM_DIR}/tmp_videoFramesByEpoch"
 TMPDIR_NUMBER="${CRONCAM_DIR}/tmp_videoFramesByNumber"
