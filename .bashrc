@@ -78,7 +78,7 @@ setup_py() {
   #source $WK/venv3.7/bin/activate
   source $HOME/dmppl/venv3.7/bin/activate
 }
-setup_py()
+setup_py
 
 setup_cuda() {
   export CUDA_HOME="/usr/local/cuda"
