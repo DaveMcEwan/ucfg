@@ -9,23 +9,15 @@ set timeoutlen=250
 " Make it hard to enter Ex mode, which I find annoying.
 nnoremap Q <nop>
 
-" Save (not within tmux)
-" Ctrl+S
-map  <C-s> :w!<cr>
-imap <C-s> <Esc>:w!<cr>
 command! W noautocmd w " Workaround for mistyping :W instead of :w, no TrimWhiteSpace.
 
 " Copy to system clipboard.
 " This can't be Ctrl+C since that is the shortcut for closing a process.
-" Ctrl+Y
-map  <C-y> "+y
-imap <C-y> <esc>"+y
+vnoremap  <C-y> "+y
 
 " Paste from system clipboard.
 " This can't be Ctrl+V since that is the shortcut for block select.
-" Ctrl+P
-map  <C-p> "+p
-imap <C-p> <esc>"+p
+vnoremap  <C-p> "+p
 
 
 " Open the current directory as a file browser.
@@ -99,14 +91,12 @@ augroup Binary
 augroup END
 
 set showmatch       "Highlight matching bracket
+set incsearch       "Search as you type
+set hls " Use '*' or '#' search forward/back for the word under the cursor.
 "Use the % key to jump to matching bracket
 noremap % v%
-set incsearch       "Search as you type
-"Highlight search matches.
-" Use '*' or '#' search forward/back for the word under the cursor.
-set hls
 " Use \hc to count the occurrences of highlighted term.
-map <Leader>hc :%s///gn
+nnoremap <Leader>hc :%s///gn
 
 set ruler           "Always show the current position at the bottom
 set mouse=a         "Use mouse everywhere
@@ -125,12 +115,12 @@ set cursorline                              "Highlight the current line
 if has("gui_running")
     set cursorcolumn                        "Highlight the current column
 endif
-map <Leader>cl :set cursorline!
-map <Leader>cc :set cursorcolumn!
+nnoremap <Leader>cl :set cursorline!
+nnoremap <Leader>cc :set cursorcolumn!
 
 " Disable wrapping by default
 set nowrap
-map <Leader>w :set nowrap!
+nnoremap <Leader>w :set nowrap!
 
 " Hex mode editing using the external tool xxd to filter the buffer.
 " '\xx' Show/edit file in hex format.
@@ -138,8 +128,8 @@ map <Leader>w :set nowrap!
 "         the buffer before write.
 " g1 - groupsize (bytes)
 " c1 - columns
-map <Leader>xx :%!xxd -g1 -c4
-map <Leader>xa :%!xxd -r -g1 -c4
+nnoremap <Leader>xx :%!xxd -g1 -c4
+nnoremap <Leader>xa :%!xxd -r -g1 -c4
 
 " Workaround unknown keycodes issue with tmux.
 noremap <S-Left> <Nop>
