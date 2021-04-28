@@ -52,6 +52,9 @@ nnoremap <F7> :VCSDiff
 nnoremap <F8> :VCSVimDiff
 nnoremap <F9> :VCSAnnotate
 
+" Git interface in new tab
+:nnoremap <F4> :tabnew<cr>:MagitOnly<cr>
+
 " Search for word under cursor in all files in current directory.
 " Uses same button as shift+8 for asterisk which searches current file.
 nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <cr>
