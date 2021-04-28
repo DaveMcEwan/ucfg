@@ -1,74 +1,90 @@
-set nocompatible "Don't emulate vi's bugs
+" Dave McEwan's Vim Configuration
+
+" {{{ Set Options
+
+set nocompatible    "Don't emulate vi's bugs.
+
 set ff=unix
-set ffs=unix,dos " Default to unix on Windows to prevent git warnings.
+set ffs=unix,dos    " Default to unix on Windows to prevent git warnings.
+
 set backspace=indent,start,eol
 
-" Reduce the delay going from INSERT to NORMAL mode.
-set timeoutlen=250
+set timeoutlen=250  " Reduce the delay going from INSERT to NORMAL mode.
 
-" Make it hard to enter Ex mode, which I find annoying.
-nnoremap Q <nop>
-
-command! W noautocmd w " Workaround for mistyping :W instead of :w, no TrimWhiteSpace.
-
-" Copy to system clipboard.
-" This can't be Ctrl+C since that is the shortcut for closing a process.
-vnoremap  <C-y> "+y
-
-" Paste from system clipboard.
-" This can't be Ctrl+V since that is the shortcut for block select.
-vnoremap  <C-p> "+p
-
-
-" Open the current directory as a file browser.
-" This also disables the annoying help windows from opening.
-let g:netrw_liststyle=3     " Use tree view.
-let g:netrw_banner=0        " Hide banner in file browser.
-let g:netrw_list_hide= '.svn/$'
-let g:netrw_hide=1          " Use hide list above.
-nnoremap <F1> :tabe %<cr>:E<cr>
-nnoremap <F2> :E<cr>
-
-" Go back to the last buffer.
-" Useful when you accidentally press <F1>
-nnoremap <F3> :b#<cr>
-
-" List buffers and give option to choose.
-nnoremap <F5> :buffers<cr>:buffer<space>
-
-" Search for verilog errors.
-nnoremap <F6> /*E<cr>
-
-" SVN commands using vcscommand plugin.
-nnoremap <F7> :VCSDiff
-nnoremap <F8> :VCSVimDiff
-nnoremap <F9> :VCSAnnotate
-
-" Git interface in new tab
-:nnoremap <F4> :tabnew<cr>:MagitOnly<cr>
-
-" Search for word under cursor in all files in current directory.
-" Uses same button as shift+8 for asterisk which searches current file.
-nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <cr>
-
-set autoindent      "Autoindent
+set autoindent
 set expandtab       "Use spaces instead of tabs
 set tabstop=2       "Use 2-space tabs
-set shiftwidth=2    "indent width
+set shiftwidth=2    "Indent width
+
 set textwidth=80    "Line width to wrap at with the gq command.
+set nowrap          " Disable wrapping by default
 
-" Enable tabs in makefiles
-autocmd FileType make setlocal noexpandtab
+if exists('+colorcolumn') " Only versions over 7.3 support colorcolumn.
+  set colorcolumn=80  "Vertical line at column 80.
+endif
 
-" Python and Rust indents are recommended as 4 spaces.
-autocmd FileType python setlocal tabstop=4
-autocmd FileType rust setlocal tabstop=4
+set showmatch       "Highlight matching bracket.
+set incsearch       "Search as you type.
+set hls             " Use *|# search forward|back for the word under the cursor.
 
-" Autowrap certain formats at textwidth.
-autocmd FileType c,haskell,markdown,python,rust,tex setlocal formatoptions+=t
+set mouse=a         "Use mouse everywhere
+set ttymouse=xterm2 "Allow mouse with tmux
 
-" Removes trailing spaces and replaces tabs with spaces.
-" This is called on write.
+set ruler           "Show current position at the bottom.
+set number          "Show line numbers.
+set showcmd         "Show the command being typed.
+
+
+set modelines=0
+set nomodeline
+
+set cursorline      "Highlight the current line.
+
+set history=1000
+set undolevels=1000
+
+set directory=~/.vim/swp/
+set noswapfile      "Don't make a swap file
+
+" 'za'  Toggle fold
+" 'zM'  Close all folds
+" 'zR'  Decrease fold level to zero (Open all folds)
+" 'zr'  Decrease fold level by one
+" 'zm'  Increase fold level by one
+" '[z'  Move to start of fold
+" 'z]'  Move to end of fold
+" 'zf'  Fold selected lines, ignoring the folding method.
+set fdm=marker      " Use marker folding by default.
+
+let c_no_comment_fold=1 "Don't automatically fold C comments.
+
+if has("gui_running")
+    set columns=85 lines=60 "Set GUI size
+
+    set showtabline=2
+
+    set guioptions+=b "Horizontal scrollbar.
+
+    set tabpagemax=20 "Max number of tabs with `gvim -p`.
+
+    set cursorcolumn  "Highlight the current column.
+endif
+
+if !has("gui_running") " Uneeded in GUI, title bar shows info.
+    set laststatus=2  " Display status line.
+endif
+
+"Netrw is the builtin file browser.
+let g:netrw_liststyle=3     "Tree view.
+let g:netrw_banner=0        "Hide banner in file browser.
+let g:netrw_hide=1          "Use hide list above.
+let g:netrw_list_hide= '.*\.git/$,.*\.svn/$'
+
+" }}} Set Options
+
+" {{{ Automatic Commands
+
+"Remove trailing spaces and replaces tabs with spaces.
 function! TrimWhiteSpace()
     %s/\s\+$//e
     retab
@@ -78,166 +94,150 @@ autocmd FileAppendPre   * :call TrimWhiteSpace()
 autocmd FilterWritePre  * :call TrimWhiteSpace()
 autocmd BufWritePre     * :call TrimWhiteSpace()
 
-" vim -b : edit binary using xxd-format!
+"Edit binary using xxd-format with `vim -b`.
 augroup Binary
-  au!
-  au BufReadPre  *.bin,*.BIN let &bin=1
-  au BufReadPost *.bin,*.BIN if &bin | %!xxd
-  au BufReadPost *.bin,*.BIN set ft=xxd | endif
-  au BufWritePre *.bin,*.BIN if &bin | %!xxd -r
-  au BufWritePre *.bin,*.BIN endif
-  au BufWritePost *.bin,*.BIN if &bin | %!xxd
-  au BufWritePost *.bin,*.BIN set nomod | endif
+  autocmd!
+  autocmd BufReadPre  *.bin,*.BIN let &bin=1
+  autocmd BufReadPost *.bin,*.BIN if &bin | %!xxd
+  autocmd BufReadPost *.bin,*.BIN set ft=xxd | endif
+  autocmd BufWritePre *.bin,*.BIN if &bin | %!xxd -r
+  autocmd BufWritePre *.bin,*.BIN endif
+  autocmd BufWritePost *.bin,*.BIN if &bin | %!xxd
+  autocmd BufWritePost *.bin,*.BIN set nomod | endif
 augroup END
 
-set showmatch       "Highlight matching bracket
-set incsearch       "Search as you type
-set hls " Use '*' or '#' search forward/back for the word under the cursor.
-"Use the % key to jump to matching bracket
+" Recognise some specific file extensions
+autocmd BufNewFile,BufReadPost *.v      set filetype=verilog
+autocmd BufNewFile,BufReadPost *.vh     set filetype=verilog
+autocmd BufNewFile,BufReadPost *.vpp    set filetype=verilog
+autocmd BufNewFile,BufReadPost *.svb    set filetype=verilog_systemverilog
+autocmd BufNewFile,BufReadPost *.svh    set filetype=verilog_systemverilog
+autocmd BufNewFile,BufReadPost *.inc    set filetype=verilog_systemverilog
+autocmd BufNewFile,BufReadPost *.vstub  set filetype=verilog
+autocmd BufNewFile,BufReadPost SCons*   set filetype=python
+autocmd BufNewFile,BufReadPost *.md     set filetype=markdown
+autocmd BufNewFile,BufReadPost *.yml    set filetype=yaml
+autocmd BufNewFile,BufReadPost *.evc    set filetype=yaml
+
+"Enable tabs in Makefiles.
+autocmd FileType make       setlocal noexpandtab
+
+"Python and Rust indents are recommended as 4 spaces.
+autocmd FileType python     setlocal tabstop=4
+autocmd FileType rust       setlocal tabstop=4
+
+"Wrap certain formats at textwidth.
+autocmd FileType c          setlocal formatoptions+=t
+autocmd FileType haskell    setlocal formatoptions+=t
+autocmd FileType markdown   setlocal formatoptions+=t
+autocmd FileType python     setlocal formatoptions+=t
+autocmd FileType rust       setlocal formatoptions+=t
+autocmd FileType tex        setlocal formatoptions+=t
+autocmd FileType verilog    setlocal formatoptions-=t
+
+""Automatically save the folds view
+"autocmd BufWinLeave * mkview
+"autocmd BufWinEnter * silent loadview
+
+" }}} Automatic Commands
+
+syntax on
+filetype on
+colorscheme dmcewan
+
+" {{{ Map Keys (features)
+
+"Copy to system clipboard.
+"   Can't be Ctrl+C because that's the shortcut for closing a process.
+vnoremap  <C-y> "+y
+
+"Paste from system clipboard.
+"   Can't be Ctrl+V because that's the shortcut for block select.
+vnoremap  <C-p> "+p
+
+"Open the current directory as a file browser.
+"   Also disables the annoying help windows from opening.
+nnoremap <F1> :tabe %<cr>:E<cr>
+nnoremap <F2> :E<cr>
+
+"Go back to the last buffer.
+"Useful when you accidentally press <F1>
+nnoremap <F3> :b#<cr>
+
+"Git interface in new tab
+:nnoremap <F4> :tabnew<cr>:MagitOnly<cr>
+
+"List buffers and give option to choose.
+nnoremap <F5> :buffers<cr>:buffer<space>
+
+"Search for verilog errors.
+nnoremap <F6> /*E<cr>
+
+"SVN commands using vcscommand plugin.
+nnoremap <F7> :VCSDiff
+nnoremap <F8> :VCSVimDiff
+nnoremap <F9> :VCSAnnotate
+
+"Search for word under cursor in all files in current directory.
+"   On mcdox keyboard this uses the same button as * (shift+8) which searches
+"   current file.
+nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <cr>
+
+"Use the % key to jump to matching bracket (Shift+5).
 noremap % v%
-" Use \hc to count the occurrences of highlighted term.
+
+"Count the occurrences of highlighted term.
 nnoremap <Leader>hc :%s///gn
 
-set ruler           "Always show the current position at the bottom
-set mouse=a         "Use mouse everywhere
-set ttymouse=xterm2 "Allow mouse with tmux
-
-set number          "Show line numbers
-set showcmd         "Show the command being typed
-
-set noswapfile      "Don't make a swap file
-
-set modelines=0
-set nomodeline
-
-" Cursor line and column on by default. Toggle with '\cl' '\cc'.
-set cursorline                              "Highlight the current line
-if has("gui_running")
-    set cursorcolumn                        "Highlight the current column
-endif
+"Cursor line and column toggle.
 nnoremap <Leader>cl :set cursorline!
 nnoremap <Leader>cc :set cursorcolumn!
 
-" Disable wrapping by default
-set nowrap
+"Toggle wrapping.
 nnoremap <Leader>w :set nowrap!
 
-" Hex mode editing using the external tool xxd to filter the buffer.
-" '\xx' Show/edit file in hex format.
-" '\xa' Return file to normal editing mode by using xxd reverse mode to patch
+"Hex mode editing using the external tool xxd to filter the buffer.
+"   '\xx' Show/edit file in hex format.
+"   '\xa' Return file to normal editing mode by using xxd reverse mode to patch
 "         the buffer before write.
-" g1 - groupsize (bytes)
-" c1 - columns
+"   g1 - groupsize (bytes)
+"   c1 - columns
 nnoremap <Leader>xx :%!xxd -g1 -c4
 nnoremap <Leader>xa :%!xxd -r -g1 -c4
 
-" Workaround unknown keycodes issue with tmux.
+"Switch syntax highlighting.
+nnoremap <Leader>sv :set syn=verilog_systemverilog
+nnoremap <Leader>sp :set syn=python
+nnoremap <Leader>sx :set syn=xml
+nnoremap <Leader>sc :set syn=c
+nnoremap <Leader>sm :set syn=markdown
+nnoremap <Leader>sy :set syn=yaml
+nnoremap <Leader>st :if exists("g:syntax_on") <Bar> syntax off <Bar>
+  \else <Bar> syntax enable <Bar>
+  \endif
+
+"Switch folding method.
+nnoremap <Leader>fk :set fdm=manual
+nnoremap <Leader>fm :set fdm=marker
+nnoremap <Leader>fs :set fdm=syntax
+nnoremap <Leader>fi :set fdm=indent
+nnoremap <Leader>fn :set nofoldenable
+
+" }}} Map Keys (features)
+
+" {{{ Map Keys (workarounds)
+
+"Make it hard to enter Ex mode.
+nnoremap Q <Nop>
+
+"Often mistyping :W instead of :w, except this doesn't call TrimWhiteSpace.
+command! W noautocmd w
+
+"Unknown keycodes issue with tmux.
 noremap <S-Left> <Nop>
 "unmap <S-Up>
 "unmap <S-Right>
 "unmap <S-Down>
 
-" Syntax highlighting and colourscheme {{{
-
-syntax on           "Highlight syntax
-filetype on
-
-" Recognise some specific file extensions
-au BufNewFile,BufRead *.v set filetype=verilog
-au BufNewFile,BufRead *.vh set filetype=verilog
-au BufNewFile,BufRead *.vpp set filetype=verilog
-au BufNewFile,BufRead *.svb set filetype=verilog_systemverilog
-au BufNewFile,BufRead *.svh set filetype=verilog_systemverilog
-au BufNewFile,BufRead *.inc set filetype=verilog_systemverilog
-au BufNewFile,BufRead *.vstub set filetype=verilog
-autocmd FileType verilog setlocal formatoptions-=t
-au BufNewFile,BufRead SCons* set filetype=python
-au BufNewFile,BufRead *.md set filetype=markdown
-au BufNewFile,BufRead *.yml set filetype=yaml
-au BufNewFile,BufRead *.evc set filetype=yaml
-
-" Enable switching syntax highlighting with quick shortcuts
-" '\sv' Verilog
-" '\sp' Python
-" '\sx' XML
-" '\sc' C
-" '\st' Toggle syntax highlighting on/off
-map <Leader>sv :set syn=verilog_systemverilog
-map <Leader>sp :set syn=python
-map <Leader>sx :set syn=xml
-map <Leader>sc :set syn=c
-map <Leader>sm :set syn=markdown
-map <Leader>sy :set syn=yaml
-map <Leader>st :if exists("g:syntax_on") <Bar> syntax off <Bar>
-               \else <Bar> syntax enable <Bar>
-               \endif
-
-"" Make it obvious when lines go over 80 columns.
-if exists('+colorcolumn')
-    " Only versions over 7.3 support colorcolumn.
-    set colorcolumn=80
-endif
-
-" }}} End of Syntax highlighting and colourscheme
-
-" Folding {{{
-
-" Use marker folding by default. Must be in normal mode.
-" 'za'  Toggle fold
-" 'zM'  Close all folds
-" 'zR'  Decrease fold level to zero (Open all folds)
-" 'zr'  Decrease fold level by one
-" 'zm'  Increase fold level by one
-" '[z'  Move to start of fold
-" 'z]'  Move to end of fold
-" 'zf'  Fold selected lines. This doesn't care about the folding method.
-set fdm=marker
-
-" Enable switching folding method with quick shortcuts
-" '\fk' manual
-" '\fm' marker
-" '\fs' syntax
-" '\fi' indent
-" '\fn' none
-map <Leader>fk :set fdm=manual
-map <Leader>fm :set fdm=marker
-map <Leader>fs :set fdm=syntax
-map <Leader>fi :set fdm=indent
-map <Leader>fn :set nofoldenable
-
-" Don't automatically fold C comments.
-let c_no_comment_fold = 1
-
-"" Automatically save the folds view
-"au BufWinLeave * mkview
-"au BufWinEnter * silent loadview
-
-" }}} End of Folding
-
-set history=1000
-set undolevels=1000
-
-set directory=~/.vim/swp/
-
-colorscheme dmcewan
-if has("gui_running")
-    set columns=85 lines=60
-endif
-
-if has("gui_running")
-    set showtabline=2
-
-    " Show horizontal scrollbar.
-    set guioptions+=b
-
-    "Max number of tabs gvim opens with the -p option.
-    set tabpagemax=20
-endif
-
-if !has("gui_running")
-    " Always display the status line in terminal.
-    " This isn't needed in gui since the title bar shows info.
-    set laststatus=2
-endif
-
+" }}} Map Keys (workarounds)
 
