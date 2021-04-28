@@ -107,6 +107,7 @@ map <Leader>hc :%s///gn
 
 set ruler           "Always show the current position at the bottom
 set mouse=a         "Use mouse everywhere
+set ttymouse=xterm2 "Allow mouse with tmux
 
 set number          "Show line numbers
 set showcmd         "Show the command being typed
@@ -136,6 +137,12 @@ map <Leader>w :set nowrap!
 " c1 - columns
 map <Leader>xx :%!xxd -g1 -c4
 map <Leader>xa :%!xxd -r -g1 -c4
+
+" Workaround unknown keycodes issue with tmux.
+noremap <S-Left> <Nop>
+"unmap <S-Up>
+"unmap <S-Right>
+"unmap <S-Down>
 
 " Syntax highlighting and colourscheme {{{
 
