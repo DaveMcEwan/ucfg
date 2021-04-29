@@ -12,12 +12,12 @@ set backspace=indent,start,eol
 set timeoutlen=250  " Reduce the delay going from INSERT to NORMAL mode.
 
 set autoindent
-set expandtab       "Use spaces instead of tabs
-set tabstop=2       "Use 2-space tabs
+set expandtab       "Insert spaces when <Tab> is pressed.
+set tabstop=2       "Number of spaces that <Tab> counts for.
 set shiftwidth=2    "Indent width
 
 set textwidth=80    "Line width to wrap at with the gq command.
-set nowrap          " Disable wrapping by default
+set nowrap          "Disable wrapping by default
 
 if exists('+colorcolumn') " Only versions over 7.3 support colorcolumn.
   set colorcolumn=80  "Vertical line at column 80.
@@ -25,7 +25,7 @@ endif
 
 set showmatch       "Highlight matching bracket.
 set incsearch       "Search as you type.
-set hls             " Use *|# search forward|back for the word under the cursor.
+set hlsearch        "Use *|# search forward|back for the word under the cursor.
 
 set mouse=a         "Use mouse everywhere
 set ttymouse=xterm2 "Allow mouse with tmux
@@ -46,14 +46,14 @@ set undolevels=1000
 set directory=~/.vim/swp/
 set noswapfile      "Don't make a swap file
 
-" 'za'  Toggle fold
-" 'zM'  Close all folds
-" 'zR'  Decrease fold level to zero (Open all folds)
-" 'zr'  Decrease fold level by one
-" 'zm'  Increase fold level by one
-" '[z'  Move to start of fold
-" 'z]'  Move to end of fold
-" 'zf'  Fold selected lines, ignoring the folding method.
+" za  Toggle fold
+" zM  Close all folds
+" zR  Decrease fold level to zero (Open all folds)
+" zr  Decrease fold level by one
+" zm  Increase fold level by one
+" [z  Move to start of fold
+" z]  Move to end of fold
+" zf  Fold selected lines, ignoring the folding method.
 set fdm=marker      " Use marker folding by default.
 
 let c_no_comment_fold=1 "Don't automatically fold C comments.
@@ -106,7 +106,7 @@ augroup Binary
   autocmd BufWritePost *.bin,*.BIN set nomod | endif
 augroup END
 
-" Recognise some specific file extensions
+"Recognise some specific file extensions
 autocmd BufNewFile,BufReadPost *.v      set filetype=verilog
 autocmd BufNewFile,BufReadPost *.vh     set filetype=verilog
 autocmd BufNewFile,BufReadPost *.vpp    set filetype=verilog
@@ -156,22 +156,15 @@ vnoremap  <C-y> "+y
 vnoremap  <C-p> "+p
 
 "Open the current directory as a file browser.
-"   Also disables the annoying help windows from opening.
-nnoremap <F1> :tabe %<cr>:E<cr>
-nnoremap <F2> :E<cr>
-
-"Go back to the last buffer.
-"Useful when you accidentally press <F1>
-nnoremap <F3> :b#<cr>
-
-"Git interface in new tab
-:nnoremap <F4> :tabnew<cr>:MagitOnly<cr>
+"   Also disables the annoying help window.
+nnoremap <F1> :tabe %<CR>:E<CR>
+nnoremap <F2> :E<CR>
 
 "List buffers and give option to choose.
-nnoremap <F5> :buffers<cr>:buffer<space>
+nnoremap <F3> :buffers<CR>:buffer<Space>
 
-"Search for verilog errors.
-nnoremap <F6> /*E<cr>
+"Git interface in new tab
+nnoremap <F4> :tabnew<CR>:MagitOnly<CR>
 
 "SVN commands using vcscommand plugin.
 nnoremap <F7> :VCSDiff
@@ -181,7 +174,7 @@ nnoremap <F9> :VCSAnnotate
 "Search for word under cursor in all files in current directory.
 "   On mcdox keyboard this uses the same button as * (shift+8) which searches
 "   current file.
-nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <cr>
+nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <CR>
 
 "Use the % key to jump to matching bracket (Shift+5).
 noremap % v%
@@ -222,6 +215,9 @@ nnoremap <Leader>fm :set fdm=marker
 nnoremap <Leader>fs :set fdm=syntax
 nnoremap <Leader>fi :set fdm=indent
 nnoremap <Leader>fn :set nofoldenable
+
+"Press Space to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " }}} Map Keys (features)
 
