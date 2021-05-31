@@ -16,7 +16,7 @@ set expandtab       "Insert spaces when <Tab> is pressed.
 set tabstop=2       "Number of spaces that <Tab> counts for.
 set shiftwidth=2    "Indent width
 
-set textwidth=80    "Line width to wrap at with the gq command.
+set textwidth=79    "Line width to wrap at with the gq command.
 set nowrap          "Disable wrapping by default
 
 if exists('+colorcolumn') " Only versions over 7.3 support colorcolumn.
