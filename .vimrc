@@ -117,7 +117,8 @@ autocmd BufNewFile,BufReadPost *.vstub  set filetype=verilog
 autocmd BufNewFile,BufReadPost SCons*   set filetype=python
 autocmd BufNewFile,BufReadPost *.md     set filetype=markdown
 autocmd BufNewFile,BufReadPost *.yml    set filetype=yaml
-autocmd BufNewFile,BufReadPost *.evc    set filetype=yaml
+autocmd BufNewFile,BufReadPost *.evc    set filetype=toml
+autocmd BufNewFile,BufReadPost *.toml   set filetype=toml
 
 "Enable tabs in Makefiles.
 autocmd FileType make       setlocal noexpandtab
