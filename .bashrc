@@ -128,5 +128,5 @@ setup_icecube2_2017_08() {
   export LD_LIBRARY_PATH="$SBT_DIR/bin/linux/opt/synpwrap:$LD_LIBRARY_PATH"
   export LD_LIBRARY_PATH="$SBT_DIR/bin/linux/opt:$LD_LIBRARY_PATH"
 
-  export PATH="$PREFIX:$PREFIX/LSE/$BINARCH:$PATH"
+  export PATH="$ICECUBEDIR:$ICECUBEDIR/LSE/$BINARCH:$PATH"
 }
