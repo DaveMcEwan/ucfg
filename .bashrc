@@ -84,6 +84,10 @@ setup_rust() {
   source "$HOME/.cargo/env"
 }
 
+setup_arduino() {
+  export PATH="$HOME/local/arduino-1.8.15:$PATH"
+}
+
 setup_cuda() {
   export CUDA_HOME="/usr/local/cuda"
   export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
