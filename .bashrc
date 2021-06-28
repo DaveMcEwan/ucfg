@@ -80,6 +80,10 @@ setup_py() {
 }
 setup_py
 
+setup_rust() {
+  source "$HOME/.cargo/env"
+}
+
 setup_cuda() {
   export CUDA_HOME="/usr/local/cuda"
   export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
