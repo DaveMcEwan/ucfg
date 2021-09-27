@@ -46,6 +46,9 @@ set undolevels=1000
 set directory=~/.vim/swp/
 set noswapfile      "Don't make a swap file
 
+set wildmenu        "Tab completion for commands.
+set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+
 " za  Toggle fold
 " zM  Close all folds
 " zR  Decrease fold level to zero (Open all folds)
@@ -148,6 +151,9 @@ colorscheme dmcewan
 
 " {{{ Map Keys (features)
 
+nnoremap <Space> <Nop>
+let mapleader=" "
+
 "Copy to system clipboard.
 "   Can't be Ctrl+C because that's the shortcut for closing a process.
 vnoremap  <C-y> "+y
@@ -216,9 +222,6 @@ nnoremap <Leader>fm :set fdm=marker
 nnoremap <Leader>fs :set fdm=syntax
 nnoremap <Leader>fi :set fdm=indent
 nnoremap <Leader>fn :set nofoldenable
-
-"Press Space to turn off highlighting and clear any message already displayed.
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " }}} Map Keys (features)
 
