@@ -13,31 +13,50 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+# https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
 
-# append to the history file, don't overwrite it
-shopt -s histappend
+# If set, a command name that is the name of a directory is executed as if it
+# were the argument to the cd command. This option is only used by interactive
+# shells.
+shopt -s autocd
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# If set, minor errors in the spelling of a directory component in a cd command
+# will be corrected. The errors checked for are transposed characters, a
+# missing character, and a character too many. If a correction is found, the
+# corrected path is printed, and the command proceeds. This option is only used
+# by interactive shells.
+shopt -s cdspell
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# Check the window size after each command and, if necessary, update the values
+# of LINES and COLUMNS.
 shopt -s checkwinsize
+
+# If set, Bash replaces directory names with the results of word expansion when
+# performing filename completion. This changes the contents of the readline
+# editing buffer. If not set, Bash attempts to preserve what the user typed.
+shopt -s direxpand
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
 # Set prompt to  hostname and basename of pwd.
-PS1='\h:\W$ '
+# https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt
+# [blue] <time> <hostname> <basename of $PWD> [yellow] <dollar/hash> [default color]
+PS1='\e[0;44m\t \h \W\e[1;32m\$\e[m'
 
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -71,6 +90,14 @@ setup_ust() {
   module load vim
   module load binutils
   module load gcc
+}
+
+setup_no() {
+  export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+  module load gnutools/gcc6.3.0
+  export LD_LIBRARY_PATH="/cad/gnu/gcc/6.3.0/lib64:$LD_LIBRARY_PATH"
+  export VERILATOR_ROOT="$HOME/verilator"
 }
 
 setup_py() {
