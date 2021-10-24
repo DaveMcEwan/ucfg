@@ -72,6 +72,13 @@ endif
 
 if !has("gui_running") " Uneeded in GUI, title bar shows info.
   set laststatus=2  " Display status line.
+
+  " Lightline plugin: https://github.com/itchyny/lightline.vim
+  " git clone https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline
+  let g:lightline = {
+    \ 'colorscheme': 'deus',
+    \ }
+  set noshowmode
 endif
 
 "Netrw is the builtin file browser.
