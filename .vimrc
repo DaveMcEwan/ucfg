@@ -59,19 +59,19 @@ set fdm=marker      " Use marker folding by default.
 let c_no_comment_fold=1 "Don't automatically fold C comments.
 
 if has("gui_running")
-    set columns=85 lines=60 "Set GUI size
+  set columns=85 lines=60 "Set GUI size
 
-    set showtabline=2
+  set showtabline=2
 
-    set guioptions+=b "Horizontal scrollbar.
+  set guioptions+=b "Horizontal scrollbar.
 
-    set tabpagemax=20 "Max number of tabs with `gvim -p`.
+  set tabpagemax=20 "Max number of tabs with `gvim -p`.
 
-    set cursorcolumn  "Highlight the current column.
+  set cursorcolumn  "Highlight the current column.
 endif
 
 if !has("gui_running") " Uneeded in GUI, title bar shows info.
-    set laststatus=2  " Display status line.
+  set laststatus=2  " Display status line.
 endif
 
 "Netrw is the builtin file browser.
