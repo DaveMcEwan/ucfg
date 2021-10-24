@@ -144,7 +144,7 @@ autocmd FileType verilog    setlocal formatoptions-=t
 
 syntax on
 filetype on
-colorscheme dmcewan
+colorscheme ron
 
 " {{{ Map Keys (features)
 
