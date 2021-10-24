@@ -56,7 +56,9 @@ HISTCONTROL=ignoreboth
 # Set prompt to  hostname and basename of pwd.
 # https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt
 # [blue] <time> <hostname> <basename of $PWD> [yellow] <dollar/hash> [default color]
-PS1='\e[0;44m\t \h \W\e[1;32m\$\e[m'
+#PS1='\[\e[0;44m\]\t \h \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
+# Hostname is unnecessary on home desktop.
+PS1='\[\e[0;44m\]\t \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
 
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -99,13 +101,14 @@ setup_no() {
   export LD_LIBRARY_PATH="/cad/gnu/gcc/6.3.0/lib64:$LD_LIBRARY_PATH"
   export VERILATOR_ROOT="$HOME/verilator"
 }
+#setup_no
 
 setup_py() {
   #module load python3.7
   #source $WK/venv3.7/bin/activate
   source $HOME/dmppl/venv3.7/bin/activate
 }
-setup_py
+#setup_py
 
 setup_rust() {
   source "$HOME/.cargo/env"
