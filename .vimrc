@@ -46,6 +46,10 @@ set undolevels=1000
 set directory=~/.vim/swp/
 set noswapfile      "Don't make a swap file
 
+" Prepare for spell-checking being turned on with `:set spell`
+set spelllang=en_gb
+set spellfile=local.utf-8.add
+
 set wildmenu        "Tab completion for commands.
 set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
