@@ -181,7 +181,7 @@ nnoremap <F2> :E<CR>
 "List buffers and give option to choose.
 nnoremap <F3> :buffers<CR>:buffer<Space>
 
-"Git interface in new tab
+"Git interface in new tab.
 nnoremap <F4> :tabnew<CR>:MagitOnly<CR>
 
 "SVN commands using vcscommand plugin.
