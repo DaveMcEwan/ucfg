@@ -28,7 +28,9 @@ set incsearch       "Search as you type.
 set hlsearch        "Use *|# search forward|back for the word under the cursor.
 
 set mouse=a         "Use mouse everywhere
-set ttymouse=xterm2 "Allow mouse with tmux
+if !has('nvim')
+  set ttymouse=xterm2 "Allow mouse with tmux
+endif
 
 set ruler           "Show current position at the bottom.
 set number          "Show line numbers.
