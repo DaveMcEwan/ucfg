@@ -191,6 +191,9 @@ nnoremap <F7> :VCSDiff
 nnoremap <F8> :VCSVimDiff
 nnoremap <F9> :VCSAnnotate
 
+"Language server diagnostic messages.
+nnoremap <Leader>l :LspDocumentDiagnostics<CR>
+
 "Search for word under cursor in all files in current directory.
 "   On mcdox keyboard this uses the same button as * (shift+8) which searches
 "   current file.
@@ -254,3 +257,22 @@ noremap <S-Left> <Nop>
 
 " }}} Map Keys (workarounds)
 
+call plug#begin()
+if !has('nvim')
+  Plug 'prabirshrestha/vim-lsp'
+endif
+if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+endif
+call plug#end()
+
+if executable('svls-ddvc')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'svls-ddvc',
+    \ 'cmd': {server_info->['svls-ddvc']},
+    \ 'whitelist': ['systemverilog'],
+    \ })
+  let g:lsp_diagnostics_virtual_text_enabled = 1
+  let g:lsp_diagnostics_signs_enabled = 1
+  let g:lsp_log_file = expand('~/.vim-lsp.log')
+endif
