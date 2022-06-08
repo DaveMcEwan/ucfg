@@ -1,5 +1,9 @@
 " Dave McEwan's Vim Configuration
 
+syntax on
+filetype on
+colorscheme ron
+
 " {{{ Set Options
 
 set nocompatible    "Don't emulate vi's bugs.
@@ -157,10 +161,6 @@ autocmd FileType verilog    setlocal formatoptions-=t
 "autocmd BufWinEnter * silent loadview
 
 " }}} Automatic Commands
-
-syntax on
-filetype on
-colorscheme ron
 
 " {{{ Map Keys (features)
 
