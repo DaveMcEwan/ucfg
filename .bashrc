@@ -77,6 +77,9 @@ fi
 export VISUAL=vim
 export EDITOR=vim
 
+d=~/.dircolors
+test -r $d && eval "$(dircolors $d)"
+
 PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/ucfg/usys/bin:$PATH"
