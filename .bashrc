@@ -56,9 +56,9 @@ HISTCONTROL=ignoreboth
 # Set prompt to  hostname and basename of pwd.
 # https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt
 # [blue] <time> <hostname> <basename of $PWD> [yellow] <dollar/hash> [default color]
-#PS1='\[\e[0;44m\]\t \h \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
+PS1='\[\e[0;44m\]\t \h \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
 # Hostname is unnecessary on home desktop.
-PS1='\[\e[0;44m\]\t \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
+#PS1='\[\e[0;44m\]\t \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
 
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -80,94 +80,73 @@ export EDITOR=vim
 d=~/.dircolors
 test -r $d && eval "$(dircolors $d)"
 
-PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin"
-PATH="$HOME/.local/bin:$PATH"
-PATH="$HOME/ucfg/usys/bin:$PATH"
-PATH="$HOME/dmpvl/tools/bin:$PATH"
-export PATH="$PATH"
+export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH=$HOME/dogit:$PATH
 
-setup_ust() {
-  export WK="/ust/work/damcewan"
-  export UST_SW_TREE="$WK/software"
+export ModuleFiles2=1
+source /cad/gnu/modules/modules-tcl/init/bash
+export MODULERCFILE="~/dotfiles/modulerc"
+module use /cad/gnu/modules/modulefiles    # FIXME: Remove as soon as all active projects use modulefiles2.0
+module load common_setup misctools/grid-engine
+module load misctools/anaconda/3-4.3.0
+module load misctools/git/2.19.1
 
-  source /ust/tools/ust/default/bashrc
-  module load tmux
-  module load vim
-  module load binutils
-  module load gcc
+setup_rust() {
+  #export CARGO_HOME="/work/damc/.cargo"
+  #export RUSTUP_HOME="/work/damc/.rustup"
+  #export CARGO_HOME="/pro/sag_research/tools/damc/.cargo"
+  #export RUSTUP_HOME="/pro/sag_research/tools/damc/.rustup"
+  export CARGO_HOME="/pro/sig_research/dddTools/work/damc/cargo"
+  export RUSTUP_HOME="/pro/sig_research/dddTools/work/damc/rustup"
+  source "$CARGO_HOME/env"
+}
+
+setup_py() {
+  # NOTE: Direct PATH to interpreter is only required to create venv.
+  #export PATH="/work/$USER/cpython-interpreters/bin:$PATH"
+
+  source /work/$USER/cpython-venvs/venv3.10/bin/activate
 }
 
 setup_no() {
-  export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
-  module load gnutools/gcc6.3.0
-  export LD_LIBRARY_PATH="/cad/gnu/gcc/6.3.0/lib64:$LD_LIBRARY_PATH"
-  export VERILATOR_ROOT="$HOME/verilator"
-}
-#setup_no
+  module use --append /pro/sig_research/dddTools/modulefiles
+  module load verilator-v5.008
+  module load svlint-v0.7.1
+  module load pandoc-3.1.2
+  module load yosys-0.27
+  #module load gnutools/pandoc-2.18
 
-setup_py() {
-  #module load python3.7
-  #source $WK/venv3.7/bin/activate
-  source $HOME/dmppl/venv3.7/bin/activate
+  # NOTE: Verilator relies on GCC.
+  module load misctools/gcc/gcc8.5.0
+  #export LD_LIBRARY_PATH="/cad/gnu/gcc/6.3.0/lib64:$LD_LIBRARY_PATH"
+
+  export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
+  #export LD_RUN_PATH="$HOME/.local/lib:$LD_RUN_PATH"
+
+  # NOTE: Just for building tmux.
+  #export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig
+
+  export DISPLAY="cad11.nordicsemi.no:10"
 }
+
+setup_riscv() {
+  # https://github.com/riscv-software-src/riscv-isa-sim
+  # https://www.embecosm.com/resources/tool-chain-downloads/
+
+  # NOTE: Add other compiler options here.
+  #RISCV_COMPILER="riscv32-embecosm-clang-centos7-20211212"
+  RISCV_COMPILER="riscv32-embecosm-gcc-centos7-20211212"
+
+  export PATH="/work/$USER/riscv-compilers/$RISCV_COMPILER/bin:$PATH"
+  export RISCV="/work/$USER/riscv-compilers/$RISCV_COMPILER"
+
+  # NOTE: Spike relies on DTC.
+  export PATH="/work/$USER/dtc/bin:$PATH"
+}
+
+setup_rust
 #setup_py
-
-setup_rust() {
-  source "$HOME/.cargo/env"
-}
-
-setup_arduino() {
-  export PATH="$HOME/local/arduino-1.8.15:$PATH"
-}
-
-setup_cuda() {
-  export CUDA_HOME="/usr/local/cuda"
-  export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
-}
-
-setup_vivado_2017_3() {
-  source ~/.bashrc
-  source /space/xilinx/Vivado/2017.3/settings64.sh
-}
-
-setup_vivado_2016_4() {
-  source ~/.bashrc
-  source /space/xilinx/Vivado/2016.4/settings64.sh
-}
-
-setup_diamond_3_11() {
-  source ~/.bashrc
-  PREFIX="/usr/local/diamond/3.11_x64"
-  BINARCH="bin/lin64"
-
-  export TEMP="/tmp"
-  export LSC_INI_PATH=""
-  export LSC_DIAMOND=true
-  export TCL_LIBRARY="$PREFIX/tcltk/lib/tcl8.5"
-  export FOUNDRY="$PREFIX/ispfpga"
-
-  export PATH="$FOUNDRY/$BINARCH:$PREFIX/$BINARCH:$PATH"
-}
-
-setup_icecube2_2017_08() {
-  # https://github.com/SymbiFlow/fpga-tool-perf/blob/master/icecubed.sh
-  source ~/.bashrc
-  ICECUBEDIR="/space/lattice/lscc/iCEcube2.2017.08"
-  BINARCH="bin/lin64"
-
-  export FOUNDRY="$ICECUBEDIR/LSE"
-  export SBT_DIR="$ICECUBEDIR/sbt_backend"
-  export SYNPLIFY_PATH="$ICECUBEDIR/synpbase"
-  export TCL_LIBRARY="$SBT_DIR/bin/linux/lib/tcl8.4"
-
-  export LM_LICENSE_FILE="/space/lattice/license.dat"
-
-  LD_LIBRARY_PATH=""
-  export LD_LIBRARY_PATH="$ICECUBEDIR/LSE/bin$BINARCH:$LD_LIBRARY_PATH"
-  export LD_LIBRARY_PATH="$SBT_DIR/lib/linux/opt:$LD_LIBRARY_PATH"
-  export LD_LIBRARY_PATH="$SBT_DIR/bin/linux/opt/synpwrap:$LD_LIBRARY_PATH"
-  export LD_LIBRARY_PATH="$SBT_DIR/bin/linux/opt:$LD_LIBRARY_PATH"
-
-  export PATH="$ICECUBEDIR:$ICECUBEDIR/LSE/$BINARCH:$PATH"
-}
+#setup_riscv
+setup_no

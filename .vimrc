@@ -2,7 +2,7 @@
 
 syntax on
 filetype on
-colorscheme ron
+colorscheme koehler
 
 " {{{ Set Options
 
@@ -266,10 +266,10 @@ if has('nvim')
 endif
 call plug#end()
 
-if executable('svls-ddvc')
+if executable('svls-dev')
   au User lsp_setup call lsp#register_server({
-    \ 'name': 'svls-ddvc',
-    \ 'cmd': {server_info->['svls-ddvc']},
+    \ 'name': 'svls-dev',
+    \ 'cmd': {server_info->['svls-dev']},
     \ 'whitelist': ['systemverilog'],
     \ })
   let g:lsp_diagnostics_virtual_text_enabled = 1
