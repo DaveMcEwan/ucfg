@@ -98,10 +98,12 @@ URI="${BASEURI}$1?limit=${PAGELIMIT}"
 # Fail on encountering an undefined variable.
 set -u
 
+CURL_SILENT="--silent --show-error"
 if [ ! -z "${DEBUGMODE}" ]
 then
   printf "Credentials=%s\n" "${U}" >&2
   printf "URI=%s\n" "${URI}" >&2
+  CURL_SILENT=""
 fi
 
 # NOTE: `mktemp` isn't in POSIX, but compatible binaries are distributed with
@@ -112,7 +114,7 @@ fi
 TMP_RX_JSON="$(mktemp /tmp/${THIS}.XXXXXXXXXX)"
 
 # Fetch the first page into a temporary file.
-curl -u "${U}" --url "${URI}" \
+curl ${CURL_SILENT} -u "${U}" --url "${URI}" \
   --request GET \
   --header 'Accept: application/json' \
   > ${TMP_RX_JSON}
@@ -142,7 +144,7 @@ fi
 while [ "${isLastPage}" = "false" ]
 do
   # Fetch the next page into a temporary file, overwriting previous one.
-  curl -u "${U}" --url "${URI}&start=${nextPageStart}" \
+  curl ${CURL_SILENT} -u "${U}" --url "${URI}&start=${nextPageStart}" \
     --request GET \
     --header 'Accept: application/json' \
     > ${TMP_RX_JSON}
