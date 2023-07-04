@@ -4,27 +4,34 @@ set _HOST = `hostname`
 #stty erase '^?'
 
 alias e "stty erase '^?'"
-alias vncs 'vncserver -geometry 1920x1080'
-alias mydu 'du /projects/firepath_WRK1/work/dmcewan-* | xdu -n'
 
 set path = ($HOME/bin $path)
 set backslash_quote
 set prompt = "%T%c2$ "
 set history = 1000
 set savehist = 2000
-setenv PATH /tools/bin:$PATH
-
-# Workaround for proj.env which will undo all the changes to $PATH here.
-setenv PATH_ORIG $PATH
+set autolist
+set complete=igncase
+set symlinks=expand
 
 limit coredumpsize 0
 
+setenv PATH_ORIG $PATH
+setenv PATH $HOME/dogit:$PATH
+
+# Easily setup the DISPLAY variable for VNC server running on xl-cam-06.
+#alias dis 'setenv DISPLAY :2'
+
+setenv EDITOR vim
+setenv SVN_EDITOR $EDITOR
+setenv GIT_EDITOR $EDITOR
+setenv VISUAL $EDITOR
+
 setenv CVSREAD
-# My standard aliases
+
 alias v "vim -p"
-alias g 'grep -Hn --color --exclude-dir=.svn \!*'
+alias g 'grep -Hn --color --exclude-dir=.git \!*'
 alias t 'tkdiff \!* &'
-alias d 'set DIFF="~/diff/\!:1.`date +%Y_%m_%d_%H_%M_%S`.diff"; pushd $TCROOT; svn info $TCROOT > $DIFF; svn diff . >> $DIFF; popd; unset DIFF'
 alias p 'patch -p0 -i'
 alias h history '\!*'
 alias a 'tmux attach -dt'
@@ -33,31 +40,4 @@ alias a 'tmux attach -dt'
 if ( ($?DISPLAY) ) then
     xrdb ~/.Xdefaults
 endif
-
-# Easily setup the DISPLAY variable for VNC server running on xl-cam-06.
-alias dis 'setenv DISPLAY :2'
-
-setenv EDITOR vim
-setenv VISUAL $EDITOR
-
-# SVN aliases
-#alias s 'svn status $TCROOT | egrep "^[-AMCGD]" | tcroot_rep.csh'
-alias s 'svn st $TCROOT | grep -P "^\w{1}" | sed "s@$TCROOT@\\$TCROOT@"'
-alias svnst    'svn status $TCROOT'
-alias svnup    'svn update $TCROOT; s'
-alias svncom   'svnup; svn commit $TCROOT'
-# Start date for svnlog is the day I started at Broadcom.
-#alias svnlog   'svn log $TCROOT -r \{2014-09-15\}:HEAD | sed -n \'/ | dmcewan | /,/-----$/ p\''
-
-# Sandbox aliases
-setenv WK "/ust/work/damcewan"
-
-# Checkout a new repository in the current directory.
-alias ust_new 'svn co https://code.eng.ultrasoc.com/svn/Silicon/trunk/ .'
-
-# Display a diff of the current workspace with zero context lines for succinctness.
-alias ust_stat 'clear; pushd $TCROOT; svn diff . --diff-cmd=diff -x -U0; popd'
-
-setenv DEBUG "-debug -force .trace=ATCB  -force .bmtrace=1 -force .verbose=1"
-alias drtfq 'rtfq $DEBUG'
 

@@ -2,7 +2,7 @@
 
 syntax on
 filetype on
-colorscheme ron
+colorscheme koehler
 
 " {{{ Set Options
 
@@ -257,19 +257,32 @@ noremap <S-Left> <Nop>
 
 " }}} Map Keys (workarounds)
 
+" {{{ vim-plug
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+" Plug 'foo/bar'
+" Shorthand notation; Fetches https://github.com/foo/bar
+
 call plug#begin()
-if !has('nvim')
-  Plug 'prabirshrestha/vim-lsp'
-endif
-if has('nvim')
-  Plug 'neovim/nvim-lspconfig'
-endif
+Plug 'prabirshrestha/vim-lsp' " Fetches https://github.com/prabirshrestha/vim-lsp
 call plug#end()
 
-if executable('svls-ddvc')
+" }}} vim-plug
+
+if executable('svls-dev')
   au User lsp_setup call lsp#register_server({
-    \ 'name': 'svls-ddvc',
-    \ 'cmd': {server_info->['svls-ddvc']},
+    \ 'name': 'svls-dev',
+    \ 'cmd': {server_info->['svls-dev']},
     \ 'whitelist': ['systemverilog'],
     \ })
   let g:lsp_diagnostics_virtual_text_enabled = 1
