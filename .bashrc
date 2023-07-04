@@ -112,14 +112,13 @@ setup_py() {
 setup_no() {
 
   module use --append /pro/sig_research/dddTools/modulefiles
-  module load verilator-v5.008
-  module load svlint-v0.7.1
-  module load pandoc-3.1.2
-  module load yosys-0.27
-  #module load gnutools/pandoc-2.18
+  module load DDD
 
-  # NOTE: Verilator relies on GCC.
-  module load misctools/gcc/gcc8.5.0
+
+  # Loaded by DDD verilator's module.
+  #module load misctools/gcc/gcc8.5.0
+
+  # Older misctools/gcc/ modules didn't update LD_LIBRARY_PATH
   #export LD_LIBRARY_PATH="/cad/gnu/gcc/6.3.0/lib64:$LD_LIBRARY_PATH"
 
   export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
@@ -129,6 +128,11 @@ setup_no() {
   #export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig
 
   export DISPLAY="cad11.nordicsemi.no:10"
+
+  export CDPATH="."
+  export CDPATH="$CDPATH:/pro/sig_research/dddTools/work/damc/"
+  export CDPATH="$CDPATH:/pro/haltium4460/work/damc/"
+  export CDPATH="$CDPATH:/pro/moonlight4503/work/damc/"
 }
 
 setup_riscv() {
