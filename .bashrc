@@ -96,10 +96,6 @@ module load misctools/anaconda/3-4.3.0
 module load misctools/git/2.19.1
 
 setup_rust() {
-  #export CARGO_HOME="/work/damc/.cargo"
-  #export RUSTUP_HOME="/work/damc/.rustup"
-  #export CARGO_HOME="/pro/sag_research/tools/damc/.cargo"
-  #export RUSTUP_HOME="/pro/sag_research/tools/damc/.rustup"
   export CARGO_HOME="/pro/sig_research/dddTools/work/damc/cargo"
   export RUSTUP_HOME="/pro/sig_research/dddTools/work/damc/rustup"
   source "$CARGO_HOME/env"
