@@ -91,7 +91,7 @@ export ModuleFiles2=1
 source /cad/gnu/modules/modules-tcl/init/bash
 export MODULERCFILE="~/dotfiles/modulerc"
 module use /cad/gnu/modules/modulefiles    # FIXME: Remove as soon as all active projects use modulefiles2.0
-module load common_setup misctools/grid-engine
+module load common_setup altair/grid-engine
 module load misctools/anaconda/3-4.3.0
 module load misctools/git/2.19.1
 
