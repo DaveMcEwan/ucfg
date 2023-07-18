@@ -33,8 +33,8 @@ DEBUGMODE=
 # Flatten output to one JSON object.
 # This waits until all pages have been retrieved before producing any output.
 # These two commands are equivalent:
-#   $ _nrg_depage_BitBucket.sh <args> | jq -s 'flatten'
-#   $ _nrg_depage_BitBucket.sh -f <args>
+#   _nrg_queryBitBucket__depage.sh <args> | jq -s 'flatten'
+#   _nrg_queryBitBucket__depage.sh -f <args>
 FLATTEN=
 
 # Take credentials from an environment variable, but may be overridden by
@@ -42,7 +42,7 @@ FLATTEN=
 # E.g: `export BITBUCKET_CREDENTIALS=jdoe:XDc1NTkzYjMyODExOrWcTKpzYujz/b/5cQjezElM6+cI`
 # <https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html>
 # No default.
-U="$(echo "${BITBUCKET_CREDENTIALS}" | tr -c -d '[A-Za-z0-9:/+=]')"
+U="$(echo "${BITBUCKET_CREDENTIALS}" | tr -c -d 'A-Za-z0-9:/+=')"
 
 # Take the `limit` parameter from an environment variable, but may be
 # overridden by the -l option.
@@ -56,7 +56,7 @@ if [ -z "${BITBUCKET_PAGELIMIT}" ]
 then
   PAGELIMIT='1000'
 else
-  PAGELIMIT="$(echo "${BITBUCKET_PAGELIMIT}" | tr -c -d '[0-9]')"
+  PAGELIMIT="$(echo "${BITBUCKET_PAGELIMIT}" | tr -c -d '0-9')"
 fi
 
 # Take the base URI from an environment variable, but may be overridden by the
@@ -71,43 +71,71 @@ if [ -z "${BITBUCKET_BASEURI}" ]
 then
   BASEURI='https://projecttools.nordicsemi.no/bitbucket/rest/api/latest/'
 else
-  BASEURI="$(echo "${BITBUCKET_BASEURI}" | tr -c -d '[a-z:/._-]')"
+  BASEURI="$(echo "${BITBUCKET_BASEURI}" | tr -c -d 'a-z:/._-')"
 fi
+
+# Parent scripts may pass a number of query parameters after the URI.
+# For example, in the URI `foo/bar?x=1&y=2`, there are 2 query parameters;
+# `x=1` and `y=2`.
+# The number of parameters to be included in the full URI must be given with
+# the -p option, i.e.:
+#   _nrg_queryBitBucket__depage.sh -p 2 foo/bar x=1 y=2
+N_PARAM='0'
 
 # Get the sanitized name of this script, used to print usage message and as a
 # template for temporary filenames.
 # To aid debugging, the sanitized name is found by calling this script with an
 # invalid option, such as -h.
-THIS="$(echo "$(basename "$0")" | tr -c -d '[a-z_.]')"
+THIS="$(echo "$(basename "$0")" | tr -c -d 'a-z_.')"
 
 # Process the command-line arguments.
 # <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html>
 # First, the optional arguments.
-while getopts 'dfu:b:l:' OPT
+while getopts 'du:b:p:l:f' OPT
 do
   case $OPT in
     d)  DEBUGMODE=1;;
+    u)  U="$(echo "$OPTARG" | tr -c -d 'A-Za-z0-9:/+=')";;
+    b)  BASEURI="$(echo "$OPTARG" | tr -c -d 'A-Za-z:/._-')";;
+    p)  N_PARAM="$(echo "$OPTARG" | tr -c -d '0-9')";;
+    l)  PAGELIMIT="$(echo "$OPTARG" | tr -c -d '0-9')";;
     f)  FLATTEN=1;;
-    u)  U="$OPTARG";;
-    l)  PAGELIMIT="$OPTARG";;
-    b)  BASEURI="$OPTARG";;
-    ?)  printf "Usage: %s [-d] [-f] [-u '<user>:<token>'] [-l <page-limit>] [-b <base-URI>] <URI>\n" ${THIS}
+    ?)  printf "Usage: %s [-d] [-u '<user>:<token>'] [-b <base-URI>] [-p <num-params>] [-l <page-limit>] [-f] <URI> <param1> <param2> ...\n" ${THIS}
         exit 2;;
   esac
 done
 # Second, the positional arguments.
 shift $(($OPTIND - 1))
-URI="${BASEURI}$1?limit=${PAGELIMIT}"
 
 # Fail on encountering an undefined variable.
 set -u
 
-CURL_SILENT='--silent --show-error'
-if [ ! -z "${DEBUGMODE}" ]
+# URI must be provided.
+if [ -z "$1" ]
 then
+  printf "Usage: <URI> must be provided\n" >&2
+  exit 1
+else
+  ARG_URI="$(echo "$1" | tr -c -d 'A-Za-z:/._-')"
+  URI="${BASEURI}${ARG_URI}?limit=${PAGELIMIT}"
+fi
+
+# Append parameters to URI.
+shift 1
+for i in $(seq 1 ${N_PARAM})
+do
+  PARAM="$(echo "$1" | tr -c -d 'A-Za-z0-9/=_-')"
+  URI="${URI}&${PARAM}"
+  shift 1 || break
+done
+
+CURL='curl'
+if [ -z "${DEBUGMODE}" ]
+then
+  CURL="${CURL} --silent --show-error"
+else
   printf "Credentials=%s\n" "${U}" >&2
   printf "URI=%s\n" "${URI}" >&2
-  CURL_SILENT=''
 fi
 
 # In normal mode, call jq with these options:
@@ -139,7 +167,7 @@ fi
 TMP_RX_JSON="$(mktemp /tmp/${THIS}.XXXXXXXXXX)"
 
 # Fetch the first page into a temporary file.
-curl ${CURL_SILENT} -u "${U}" --url "${URI}" \
+${CURL} -u "${U}" --url "${URI}" \
   --request GET \
   --header 'Accept: application/json' \
   > ${TMP_RX_JSON}
@@ -169,7 +197,7 @@ fi
 while [ "${isLastPage}" = "false" ]
 do
   # Fetch the next page into a temporary file, overwriting previous one.
-  curl ${CURL_SILENT} -u "${U}" --url "${URI}&start=${nextPageStart}" \
+  ${CURL} -u "${U}" --url "${URI}&start=${nextPageStart}" \
     --request GET \
     --header 'Accept: application/json' \
     > ${TMP_RX_JSON}
