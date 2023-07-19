@@ -49,8 +49,12 @@ Installation
   Again, you may wish to make these changes permanently in your shell
   configuration or a modulefile.
   At a minimum, you'll need to setup your credentials for authentication.
-3. Test the installation by running `_nrg_test.sh` which should exit with code
-   `0` on success and non-zero on failure.
+3. Test the installation by running `cd nrg/ && make test` which should exit
+  with code `0` on success and non-zero on failure.
+  Make should run all tests (in parallel, if given the `-j` option) by running
+  all scripts `nrg/tests/*.sh` which capture their output in
+  `nrg/tests/observed/*.std(out|err)` and comparing that to the expected output
+  stored in `nrg/tests/expected/*.std(out|err)`.
 
 
 Structure
