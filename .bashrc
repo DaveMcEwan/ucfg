@@ -83,6 +83,16 @@ test -r $d && eval "$(dircolors $d)"
 export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Enable environment modules.
+# This is the same snippet prepended by `/usr/bin/add.modules`.
+case "$0" in
+          -sh|sh|*/sh)  modules_shell=sh ;;
+       -ksh|ksh|*/ksh)  modules_shell=ksh ;;
+       -zsh|zsh|*/zsh)  modules_shell=zsh ;;
+    -bash|bash|*/bash)  modules_shell=bash ;;
+esac
+module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
+
 setup_ust() {
   export WK="/ust/work/damcewan"
   export UST_SW_TREE="$WK/software"
