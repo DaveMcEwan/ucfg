@@ -93,6 +93,13 @@ case "$0" in
 esac
 module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
 
+setup_dmsv() {
+  pushd ~/dmsv/
+  source tools.sourceme.sh
+  popd
+}
+setup_dmsv
+
 setup_ust() {
   export WK="/ust/work/damcewan"
   export UST_SW_TREE="$WK/software"
