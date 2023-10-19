@@ -27,6 +27,7 @@ alias printline="printline_"
 
 # git shortcuts
 alias gitac="git commit -a -m"
+alias gg='git ls-files -z | xargs -0 grep -Hn --color'
 
 # Webcam snapshot
 cam() {
