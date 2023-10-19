@@ -2,6 +2,24 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+#
+# Invoked as an interactive non-login shell
+# -----------------------------------------
+#
+# When an interactive shell that is not a login shell is started, Bash reads and
+# executes commands from ~/.bashrc, if that file exists. This may be inhibited by
+# using the --norc option. The --rcfile file option will force Bash to read and
+# execute commands from file instead of ~/.bashrc.
+#
+# So, typically, your ~/.bash_profile contains the line
+#   if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+# after (or before) any login-specific initializations.
+
+#export DBG_THIS=yes # Uncomment this line to show sequence of startup scripts.
+export _DBG_SHSTARTUP=${DBG_THIS}${_DBG_SHSTARTUP} # Don't uncomment this line.
+[ ! -z "${_DBG_SHSTARTUP}" ] && echo "Entering <ucfg>/.bashrc"
+
 # Source global definitions
 if [ -f /etc/bash.bashrc ]; then
   . /etc/bash.bashrc
@@ -187,3 +205,5 @@ setup_icecube2_2017_08() {
 
   export PATH="$ICECUBEDIR:$ICECUBEDIR/LSE/$BINARCH:$PATH"
 }
+
+[ ! -z "${_DBG_SHSTARTUP}" ] && echo "Exiting <ucfg>/.bashrc"

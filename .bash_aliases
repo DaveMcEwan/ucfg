@@ -1,4 +1,8 @@
 
+#export DBG_THIS=yes # Uncomment this line to show sequence of startup scripts.
+export _DBG_SHSTARTUP=${DBG_THIS}${_DBG_SHSTARTUP} # Don't uncomment this line.
+[ ! -z "${_DBG_SHSTARTUP}" ] && echo "Entering <ucfg>/.bash_aliases"
+
 alias v='vim -p'
 alias g="grep -Hn --color"
 alias l="ls -l"
@@ -50,3 +54,4 @@ mkdiff() {
 # Extract IPv4 address from a particular interface.
 alias ipaddr="ip addr | grep enp0s31f6 | grep -Po '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+(?=/)'"
 
+[ ! -z "${_DBG_SHSTARTUP}" ] && echo "Exiting <ucfg>/.bash_aliases"
