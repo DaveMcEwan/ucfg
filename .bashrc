@@ -94,9 +94,11 @@ esac
 module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
 
 setup_dmsv() {
-  pushd ~/dmsv/
-  source tools.sourceme.sh
-  popd
+  export THIS="${HOME}/dmsv"
+  module use "${THIS}/tools/modulefiles"
+  module -s unload dmsv
+  module -s load dmsv
+  alias tclsh='rlwrap tclsh'
 }
 setup_dmsv
 
