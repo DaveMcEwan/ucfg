@@ -4,13 +4,13 @@
 
 # Source global definitions
 if [ -f /etc/bash.bashrc ]; then
-        . /etc/bash.bashrc
+  . /etc/bash.bashrc
 fi
 
 # If not running interactively, do nothing
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
@@ -71,7 +71,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 export VISUAL=vim
@@ -86,10 +86,10 @@ export PATH="$HOME/.local/bin:$PATH"
 # Enable environment modules.
 # This is the same snippet prepended by `/usr/bin/add.modules`.
 case "$0" in
-          -sh|sh|*/sh)  modules_shell=sh ;;
-       -ksh|ksh|*/ksh)  modules_shell=ksh ;;
-       -zsh|zsh|*/zsh)  modules_shell=zsh ;;
-    -bash|bash|*/bash)  modules_shell=bash ;;
+  -sh|sh|*/sh)        modules_shell=sh ;;
+  -ksh|ksh|*/ksh)     modules_shell=ksh ;;
+  -zsh|zsh|*/zsh)     modules_shell=zsh ;;
+  -bash|bash|*/bash)  modules_shell=bash ;;
 esac
 module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
 
