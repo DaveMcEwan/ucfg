@@ -150,6 +150,7 @@ setup_py() {
 setup_rust() {
   source "$HOME/.cargo/env"
 }
+setup_rust
 
 setup_arduino() {
   export PATH="$HOME/local/arduino-1.8.15:$PATH"
