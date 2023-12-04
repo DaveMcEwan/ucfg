@@ -98,8 +98,9 @@ export EDITOR=vim
 d=~/.dircolors
 test -r $d && eval "$(dircolors $d)"
 
-export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # Enable environment modules.
 # This is the same snippet prepended by `/usr/bin/add.modules`.
@@ -109,7 +110,14 @@ case "$0" in
   -zsh|zsh|*/zsh)     modules_shell=zsh ;;
   -bash|bash|*/bash)  modules_shell=bash ;;
 esac
-module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
+#module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
+
+setup_codasip() {
+  export PATH="/usr/share/Modules/bin:$PATH"
+
+  export LMX_LICENSE_PATH="localhost%6200"
+}
+setup_codasip
 
 setup_dmsv() {
   export THIS="${HOME}/dmsv"
@@ -118,7 +126,7 @@ setup_dmsv() {
   module -s load dmsv
   alias tclsh='rlwrap tclsh'
 }
-setup_dmsv
+#setup_dmsv
 
 setup_ust() {
   export WK="/ust/work/damcewan"
@@ -150,7 +158,7 @@ setup_py() {
 setup_rust() {
   source "$HOME/.cargo/env"
 }
-setup_rust
+#setup_rust
 
 setup_arduino() {
   export PATH="$HOME/local/arduino-1.8.15:$PATH"
