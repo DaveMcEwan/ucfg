@@ -67,11 +67,14 @@ HISTFILESIZE=2000
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
+# Disable software flow control (XOFF/Ctrl-s, XON/Ctrl-q).
+stty -ixon
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
-# Set prompt to  hostname and basename of pwd.
+# Set prompt to hostname and basename of pwd.
 # https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt
 # [blue] <time> <hostname> <basename of $PWD> [yellow] <dollar/hash> [default color]
 #PS1='\[\e[0;44m\]\t \h \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
@@ -79,9 +82,15 @@ HISTCONTROL=ignoreboth
 PS1='\[\e[0;44m\]\t \W\[\e[m\]\[\e[1;32m\]\$\[\e[m\]'
 
 
-# Add an "alert" alias for long running commands.  Use like so:
+# Produce a GUI popup and append the previous command to the desktop area for
+# notifications.
+# The utility `notify-send` is part of GNOME's libnotify.
+#  <https://gitlab.gnome.org/GNOME/libnotify>
+# To get a notification at the end of a long-running command:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# To get a notification about a non-zero exit code:
+#   false || alert
+alias alert='notify-send -u low "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/\s*[;&|]\+\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -115,7 +124,8 @@ esac
 setup_codasip() {
   export PATH="/usr/share/Modules/bin:$PATH"
 
-  export LMX_LICENSE_PATH="localhost%6200"
+  # https://codasip.atlassian.net/wiki/spaces/WIKI/pages/271974495/Codasip+License+Server+LMX
+  export LMX_LICENSE_PATH="license-server.codasip.com%6200"
 }
 setup_codasip
 
