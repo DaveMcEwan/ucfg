@@ -130,7 +130,7 @@ setup_codasip() {
   # https://codasip.atlassian.net/wiki/spaces/WIKI/pages/271974495/Codasip+License+Server+LMX
   export LMX_LICENSE_PATH="license-server.codasip.com%6200"
 }
-setup_codasip
+#setup_codasip
 
 setup_dmsv() {
   export THIS="${HOME}/dmsv"
