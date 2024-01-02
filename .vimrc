@@ -41,7 +41,7 @@ set number          "Show line numbers.
 set showcmd         "Show the command being typed.
 
 
-set modelines=0
+set modelines=0     " Avoid file-specific configuration.
 set nomodeline
 
 set cursorline      "Highlight the current line.
@@ -83,15 +83,42 @@ if has("gui_running")
   set cursorcolumn  "Highlight the current column.
 endif
 
-if !has("gui_running") " Uneeded in GUI, title bar shows info.
-  set laststatus=2  " Display status line.
+if !has("gui_running") " Uneeded in GUI because title bar shows info.
+  function! GitBranch()
+    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+  endfunction
 
-  " Lightline plugin: https://github.com/itchyny/lightline.vim
-  " git clone https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline
-  let g:lightline = {
-    \ 'colorscheme': 'deus',
-    \ }
-  set noshowmode
+  function! StatuslineGit()
+    let l:branchname = GitBranch()
+    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+  endfunction
+
+  set laststatus=2  " Always display the statusline.
+
+  set statusline=%m%{StatuslineGit()}%f " Modified, git branch, filename.
+
+  if version >= 700 " Color the statusline depending on the editing mode.
+    function! InsertStatuslineColor(mode)
+      if a:mode == 'i'
+        highlight statusline ctermfg=white ctermbg=magenta
+      elseif a:mode == 'r'
+        highlight statusline ctermfg=white ctermbg=blue
+      else
+        highlight statusline ctermfg=white ctermbg=red
+      endif
+    endfunction
+
+    autocmd InsertEnter * call InsertStatuslineColor(v:insertmode)
+    autocmd InsertChange * call InsertStatuslineColor(v:insertmode)
+    autocmd InsertLeave * highlight statusline ctermfg=black ctermbg=green
+    highlight statusline ctermfg=black ctermbg=green
+  endif
+
+  " Consistently readable colors for tabline.
+  highlight TabLineFill ctermfg=white ctermbg=black
+  highlight TabLine ctermfg=black ctermbg=white
+  highlight TabLineSel ctermfg=white ctermbg=blue
+
 endif
 
 "Netrw is the builtin file browser.
@@ -280,7 +307,7 @@ call plug#end()
 " }}} vim-plug
 
 if executable('svls-dev')
-  au User lsp_setup call lsp#register_server({
+  autocmd User lsp_setup call lsp#register_server({
     \ 'name': 'svls-dev',
     \ 'cmd': {server_info->['svls-dev']},
     \ 'whitelist': ['systemverilog'],
