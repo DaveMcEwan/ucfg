@@ -104,6 +104,9 @@ fi
 export VISUAL=vim
 export EDITOR=vim
 
+export GIT_EDITOR=vim
+export GIT_PAGER=cat
+
 d=~/.dircolors
 test -r $d && eval "$(dircolors $d)"
 
