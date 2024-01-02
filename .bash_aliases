@@ -26,8 +26,8 @@ printline_() { sed -n -e "$1{p;q;}" "$2"; }
 alias printline="printline_"
 
 # git shortcuts
-alias gitac="git commit -a -m"
 alias gg='git ls-files -z | xargs -0 grep -Hn --color'
+alias gl='git log --oneline --graph --all'
 
 # Webcam snapshot
 cam() {
