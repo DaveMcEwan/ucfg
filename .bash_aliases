@@ -25,9 +25,15 @@ alias decrypt="openssl enc -d -md sha256 -bf-cbc -a -in"
 printline_() { sed -n -e "$1{p;q;}" "$2"; }
 alias printline="printline_"
 
-# git shortcuts
-alias gg='git ls-files -z | xargs -0 grep -Hn --color'
-alias gl='git log --oneline --graph --all'
+# List all non-binary files in a repo.
+alias gf='git grep -Il ""'
+
+# Grep all non-binary files in a repo.
+alias gg='git grep -IHn'
+
+# Fancier `git log` and `git status`.
+alias gl='git log --oneline --graph'
+alias gs='git remote -v; git branch; git status'
 
 # Webcam snapshot
 cam() {
