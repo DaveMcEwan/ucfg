@@ -132,14 +132,14 @@ setup_codasip() {
 }
 #setup_codasip
 
-setup_dmsv() {
-  export THIS="${HOME}/dmsv"
-  module use "${THIS}/tools/modulefiles"
-  module -s unload dmsv
-  module -s load dmsv
+setup_xrys() {
+  export XRYS="${HOME}/xrys"
+  module use "${XRYS}/tools/modulefiles"
+  module -s unload xrys
+  module -s load xrys
   alias tclsh='rlwrap tclsh'
 }
-#setup_dmsv
+#setup_xrys
 
 setup_ust() {
   export WK="/ust/work/damcewan"
