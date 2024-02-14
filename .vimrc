@@ -214,17 +214,15 @@ nnoremap <F3> :buffers<CR>:buffer<Space>
 nnoremap <F4> :tabnew<CR>:MagitOnly<CR>
 
 "SVN commands using vcscommand plugin.
-nnoremap <F7> :VCSDiff
-nnoremap <F8> :VCSVimDiff
-nnoremap <F9> :VCSAnnotate
-
-"Language server diagnostic messages.
-nnoremap <Leader>l :LspDocumentDiagnostics<CR>
+nnoremap <F5> :VCSDiff
 
 "Search for word under cursor in all files in current directory.
 "   On mcdox keyboard this uses the same button as * (shift+8) which searches
 "   current file.
 nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <CR>
+
+"Language server diagnostic messages.
+nnoremap <Leader>l :LspDocumentDiagnostics<CR>
 
 "Use the % key to jump to matching bracket (Shift+5).
 noremap % v%
