@@ -95,7 +95,7 @@ if !has("gui_running") " Uneeded in GUI because title bar shows info.
 
   set laststatus=2  " Always display the statusline.
 
-  set statusline=%m%{StatuslineGit()}%f " Modified, git branch, filename.
+  set statusline=%m%f " Modified, filename.
 
   if version >= 700 " Color the statusline depending on the editing mode.
     function! InsertStatuslineColor(mode)
