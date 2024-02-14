@@ -56,7 +56,8 @@ set noswapfile      "Don't make a swap file
 set spelllang=en_gb
 set spellfile=local.utf-8.add
 
-set wildmenu        "Tab completion for commands.
+set wildmode=list:longest:full,full        "Tab completion for commands.
+set wildmenu
 set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
 " za  Toggle fold
