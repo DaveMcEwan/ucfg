@@ -125,10 +125,23 @@ esac
 #module() { eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl $modules_shell $*`; }
 
 setup_codasip() {
-  export PATH="/usr/share/Modules/bin:$PATH"
+  export PATH="/usr/share/Modules/bin:${PATH}"
 
   # https://codasip.atlassian.net/wiki/spaces/WIKI/pages/271974495/Codasip+License+Server+LMX
   export LMX_LICENSE_PATH="license-server.codasip.com%6200"
+
+  # Released build.
+  #export PATH="${HOME}/codasip/studio-10.0.0-1012/tools/bin:${PATH}"
+  #alias s='${HOME}/codasip/studio-10.0.0-1012/bin/codasip_studio'
+
+  # Bootstrap build.
+  export PATH="${HOME}/codasip/codasip-studio/install/tools/bin:${PATH}"
+
+  # Questa install for CA simulator.
+  export QUESTA_ROOT="${HOME}/mentor/questasim_2023.2/"
+  export PATH="${QUESTA_ROOT}/questasim/bin:${PATH}"
+
+  alias c='cmdline -m codasip'
 }
 setup_codasip
 
