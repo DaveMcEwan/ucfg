@@ -56,7 +56,8 @@ set noswapfile      "Don't make a swap file
 set spelllang=en_gb
 set spellfile=local.utf-8.add
 
-set wildmenu        "Tab completion for commands.
+set wildmode=list:longest:full,full        "Tab completion for commands.
+set wildmenu
 set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
 " za  Toggle fold
@@ -95,7 +96,7 @@ if !has("gui_running") " Uneeded in GUI because title bar shows info.
 
   set laststatus=2  " Always display the statusline.
 
-  set statusline=%m%{StatuslineGit()}%f " Modified, git branch, filename.
+  set statusline=%m%f " Modified, filename.
 
   if version >= 700 " Color the statusline depending on the editing mode.
     function! InsertStatuslineColor(mode)
@@ -214,17 +215,15 @@ nnoremap <F3> :buffers<CR>:buffer<Space>
 nnoremap <F4> :tabnew<CR>:MagitOnly<CR>
 
 "SVN commands using vcscommand plugin.
-nnoremap <F7> :VCSDiff
-nnoremap <F8> :VCSVimDiff
-nnoremap <F9> :VCSAnnotate
-
-"Language server diagnostic messages.
-nnoremap <Leader>l :LspDocumentDiagnostics<CR>
+nnoremap <F5> :VCSDiff
 
 "Search for word under cursor in all files in current directory.
 "   On mcdox keyboard this uses the same button as * (shift+8) which searches
 "   current file.
 nnoremap <F10> :execute " grep -Hnr --exclude-dir=.git " . expand("<cword>") . " ." <CR>
+
+"Language server diagnostic messages.
+nnoremap <Leader>l :LspDocumentDiagnostics<CR>
 
 "Use the % key to jump to matching bracket (Shift+5).
 noremap % v%
